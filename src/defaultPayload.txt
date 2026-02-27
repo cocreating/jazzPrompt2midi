@@ -1,137 +1,275 @@
-TITLE: Paper Lantern Index
-TEMPO: 96
-KEY: F minor
+TITLE: Guide-Tone Alley (Post-Bop Head)
+TEMPO: 110
+KEY: D minor
 TIME: 4/4
-SWING: light
+SWING: medium
 BARS: 32
 
-CHORDS:
-bar 1: Fm9(4)
-bar 2: Abmaj7(2) Db13(2)
-bar 3: Gm7b5(2) C7b9(2)
-bar 4: Fm9(3) C7alt(1)
-bar 5: Fm9(2) Bb7(2)
-bar 6: Ebmaj9(3) Ab13(1)
-bar 7: Dbmaj7(2) G7alt(2)
-bar 8: C7b9(4)
-bar 9: Fm9(3) Ebm9(1)
-bar 10: Dm7b5(2) G7alt(2)
-bar 11: Cm9(2) F7(2)
-bar 12: Bbmaj7(4)
-bar 13: Bbm7(2) Eb7(2)
-bar 14: Abmaj7(3) Db13(1)
-bar 15: Gm7b5(2) C7b9(2)
-bar 16: Fm9(4)
-bar 17: Am7b5(2) D7alt(2)
-bar 18: Gm9(3) C7(1)
-bar 19: Fm9(2) Abmaj7(2)
-bar 20: Dbmaj7(4)
-bar 21: Gm7b5(2) C7alt(2)
-bar 22: Fm9(3) Fm(maj7)(1)
-bar 23: Bbm7(2) Eb7(2)
-bar 24: Abmaj7(2) C7alt(2)
-bar 25: Fm9(4)
-bar 26: Abmaj7(2) G7alt(2)
-bar 27: Gbmaj7(2) Fm9(2)
-bar 28: Bbm7(2) C7b9(2)
-bar 29: Fm9(3) Db13(1)
-bar 30: Gm7b5(2) C7alt(2)
-bar 31: Fm9(2) C7b9(2)
-bar 32: Fm6(4)
+CHORDS
+bar 1: Dm9(4)
+bar 2: Gm9(2), C13(#11)(2)
+bar 3: Fmaj9(2), B7alt(2)
+bar 4: Em9(2), A7alt(2)
+bar 5: Dm9(4)
+bar 6: Ab7(#11)(2), Gm9(2)
+bar 7: C13(b9)(2), Fmaj9(2)
+bar 8: Em7b5(2), A7alt(2)
 
-MELODY:
-bar 1 beat 1.0: C5 duration 1.5
-bar 1 beat 2.7: Ab4 duration 0.8
-bar 1 beat 3.8: F4 duration 0.2
-bar 2 beat 1.0: Eb4 duration 1.2
-bar 2 beat 2.4: F4 duration 0.6
-bar 2 beat 3.2: Ab4 duration 0.8
-bar 3 beat 1.0: Bb4 duration 0.9
-bar 3 beat 2.1: G4 duration 0.7
-bar 3 beat 3.0: F4 duration 1.0
-bar 4 beat 1.0: C5 duration 1.3
-bar 4 beat 2.5: Ab4 duration 0.9
-bar 4 beat 3.6: G4 duration 0.4
-bar 5 beat 1.0: F4 duration 0.8
-bar 5 beat 1.9: Ab4 duration 0.7
-bar 5 beat 2.8: Bb4 duration 0.6
-bar 5 beat 3.6: C5 duration 0.4
-bar 6 beat 1.0: Bb4 duration 1.5
-bar 6 beat 2.7: G4 duration 0.7
-bar 6 beat 3.6: Ab4 duration 0.4
-bar 7 beat 1.0: F4 duration 1.2
-bar 7 beat 2.4: Eb4 duration 0.8
-bar 7 beat 3.5: D4 duration 0.5
-bar 8 beat 1.0: C5 duration 1.0
-bar 8 beat 2.2: Bb4 duration 0.8
-bar 8 beat 3.2: G4 duration 0.8
-bar 9 beat 1.0: Ab4 duration 1.4
-bar 9 beat 2.6: F4 duration 0.9
-bar 9 beat 3.7: Eb4 duration 0.3
-bar 10 beat 1.0: D4 duration 0.8
-bar 10 beat 1.9: G4 duration 0.7
-bar 10 beat 2.8: Bb4 duration 0.6
-bar 10 beat 3.6: A4 duration 0.4
-bar 11 beat 1.0: G4 duration 1.2
-bar 11 beat 2.4: Eb4 duration 0.8
-bar 11 beat 3.5: F4 duration 0.5
-bar 12 beat 1.0: D4 duration 1.5
-bar 12 beat 2.7: Bb3 duration 1.3
-bar 13 beat 1.0: Db4 duration 0.9
-bar 13 beat 2.1: F4 duration 0.7
-bar 13 beat 3.0: Ab4 duration 1.0
-bar 14 beat 1.0: C5 duration 1.4
-bar 14 beat 2.6: Ab4 duration 0.9
-bar 14 beat 3.7: F4 duration 0.3
-bar 15 beat 1.0: Bb4 duration 0.8
-bar 15 beat 1.9: G4 duration 0.7
-bar 15 beat 2.8: F4 duration 1.2
-bar 16 beat 1.0: C5 duration 2.0
-bar 16 beat 3.3: Ab4 duration 0.7
-bar 17 beat 1.0: A4 duration 0.8
-bar 17 beat 1.9: F4 duration 0.7
-bar 17 beat 2.8: D4 duration 0.8
-bar 17 beat 3.8: C4 duration 0.2
-bar 18 beat 1.0: Bb4 duration 1.5
-bar 18 beat 2.7: G4 duration 0.7
-bar 18 beat 3.6: F4 duration 0.4
-bar 19 beat 1.0: Ab4 duration 1.2
-bar 19 beat 2.4: C5 duration 0.8
-bar 19 beat 3.5: Db5 duration 0.5
-bar 20 beat 1.0: Eb5 duration 1.6
-bar 20 beat 2.8: Db5 duration 1.0
-bar 21 beat 1.0: Bb4 duration 0.9
-bar 21 beat 2.1: G4 duration 0.9
-bar 21 beat 3.2: F4 duration 0.8
-bar 22 beat 1.0: C5 duration 1.5
-bar 22 beat 2.7: Ab4 duration 0.7
-bar 22 beat 3.6: G4 duration 0.4
-bar 23 beat 1.0: F4 duration 1.0
-bar 23 beat 2.2: Ab4 duration 0.8
-bar 23 beat 3.3: Bb4 duration 0.7
-bar 24 beat 1.0: C5 duration 1.4
-bar 24 beat 2.6: G4 duration 0.9
-bar 24 beat 3.7: F4 duration 0.3
-bar 25 beat 1.0: Ab4 duration 2.2
-bar 25 beat 3.4: C5 duration 0.6
-bar 26 beat 1.0: Eb5 duration 1.3
-bar 26 beat 2.5: D5 duration 0.9
-bar 26 beat 3.7: B4 duration 0.3
-bar 27 beat 1.0: Bb4 duration 1.1
-bar 27 beat 2.3: Ab4 duration 0.9
-bar 27 beat 3.4: F4 duration 0.6
-bar 28 beat 1.0: Db4 duration 0.9
-bar 28 beat 2.1: F4 duration 0.7
-bar 28 beat 3.0: G4 duration 1.0
-bar 29 beat 1.0: Ab4 duration 1.7
-bar 29 beat 2.9: F4 duration 0.9
-bar 29 beat 3.9: Eb4 duration 0.1
-bar 30 beat 1.0: D4 duration 0.8
-bar 30 beat 1.9: G4 duration 0.8
-bar 30 beat 2.9: Bb4 duration 0.7
-bar 30 beat 3.8: Ab4 duration 0.2
-bar 31 beat 1.0: C5 duration 1.5
-bar 31 beat 2.7: Bb4 duration 0.9
-bar 31 beat 3.8: G4 duration 0.2
-bar 32 beat 1.0: F4 duration 3.5
-bar 32 beat 3.7: Ab4 duration 0.3
+bar 9: Dm9(2), Dm(maj9)(2)
+bar 10: Gm9(2), C7alt(2)
+bar 11: Fmaj9(2), Fm9(2)
+bar 12: Ebmaj9(2), A7alt(2)
+bar 13: Dm9(4)
+bar 14: Bbmaj9(2), Bdim7(2)
+bar 15: Am9(2), D7alt(2)
+bar 16: Gm9(2), A7sus(2)
+
+bar 17: A7alt(2), Dm9(2)
+bar 18: Gm11(2), C13(#11)(2)
+bar 19: Fmaj9(2), E7alt(2)
+bar 20: Em7b5(2), A7alt(2)
+bar 21: Dm9(4)
+bar 22: Db7(#11)(2), Cmaj9(2)
+bar 23: Bm7b5(2), E7alt(2)
+bar 24: Am9(2), A7alt(2)
+
+bar 25: Dm9(2), Gm9(2)
+bar 26: C13(b9)(2), Fmaj9(2)
+bar 27: B7alt(2), Em9(2)
+bar 28: A7alt(4)
+bar 29: Dm9(2), Gm9(2)
+bar 30: C13(#11)(2), Fmaj9(2)
+bar 31: Em7b5(2), A7alt(2)
+bar 32: Dm6/9(4)
+
+MELODY
+bar 1 beat 1.0: F4 duration 0.5
+bar 1 beat 1.5: A4 duration 0.5
+bar 1 beat 2.0: C5 duration 1.0
+bar 1 beat 3.0: E5 duration 0.5
+bar 1 beat 3.5: D5 duration 0.5
+bar 1 beat 4.0: C5 duration 1.0
+
+bar 2 beat 1.0: Bb4 duration 1.0
+bar 2 beat 2.0: A4 duration 0.5
+bar 2 beat 2.5: G4 duration 0.5
+bar 2 beat 3.0: F4 duration 0.5
+bar 2 beat 3.5: E4 duration 0.5
+bar 2 beat 4.0: D4 duration 1.0
+
+bar 3 beat 1.0: E4 duration 0.5
+bar 3 beat 1.5: G4 duration 0.5
+bar 3 beat 2.0: A4 duration 0.5
+bar 3 beat 2.5: C5 duration 0.5
+bar 3 beat 3.0: D#5 duration 0.5
+bar 3 beat 3.5: D5 duration 0.5
+bar 3 beat 4.0: C#5 duration 1.0
+
+bar 4 beat 1.0: B4 duration 0.5
+bar 4 beat 1.5: G4 duration 0.5
+bar 4 beat 2.0: F4 duration 1.0
+bar 4 beat 3.0: E4 duration 0.5
+bar 4 beat 3.5: G4 duration 0.5
+bar 4 beat 4.0: F4 duration 1.0
+
+bar 5 beat 1.0: A4 duration 0.5
+bar 5 beat 1.5: C5 duration 0.5
+bar 5 beat 2.0: D5 duration 1.0
+bar 5 beat 3.0: F5 duration 0.5
+bar 5 beat 3.5: E5 duration 0.5
+bar 5 beat 4.0: D5 duration 1.0
+
+bar 6 beat 1.0: C5 duration 0.5
+bar 6 beat 1.5: Bb4 duration 0.5
+bar 6 beat 2.0: B4 duration 0.5
+bar 6 beat 2.5: C5 duration 0.5
+bar 6 beat 3.0: D5 duration 0.5
+bar 6 beat 3.5: Bb4 duration 0.5
+bar 6 beat 4.0: A4 duration 1.0
+
+bar 7 beat 1.0: G4 duration 0.5
+bar 7 beat 1.5: E4 duration 0.5
+bar 7 beat 2.0: F4 duration 1.0
+bar 7 beat 3.0: A4 duration 0.5
+bar 7 beat 3.5: G4 duration 0.5
+bar 7 beat 4.0: E4 duration 1.0
+
+bar 8 beat 1.0: F4 duration 0.5
+bar 8 beat 1.5: Ab4 duration 0.5
+bar 8 beat 2.0: G4 duration 0.5
+bar 8 beat 2.5: F4 duration 0.5
+bar 8 beat 3.0: E4 duration 0.5
+bar 8 beat 3.5: D4 duration 0.5
+bar 8 beat 4.0: C#4 duration 1.0
+
+bar 9 beat 1.0: D4 duration 1.0
+bar 9 beat 2.0: F4 duration 0.5
+bar 9 beat 2.5: A4 duration 0.5
+bar 9 beat 3.0: C5 duration 0.5
+bar 9 beat 3.5: B4 duration 0.5
+bar 9 beat 4.0: A4 duration 1.0
+
+bar 10 beat 1.0: Bb4 duration 0.5
+bar 10 beat 1.5: D5 duration 0.5
+bar 10 beat 2.0: C5 duration 1.0
+bar 10 beat 3.0: B4 duration 0.5
+bar 10 beat 3.5: Bb4 duration 0.5
+bar 10 beat 4.0: A4 duration 1.0
+
+bar 11 beat 1.0: A4 duration 0.5
+bar 11 beat 1.5: C5 duration 0.5
+bar 11 beat 2.0: E5 duration 1.0
+bar 11 beat 3.0: Eb5 duration 0.5
+bar 11 beat 3.5: C5 duration 0.5
+bar 11 beat 4.0: Ab4 duration 1.0
+
+bar 12 beat 1.0: G4 duration 0.5
+bar 12 beat 1.5: Bb4 duration 0.5
+bar 12 beat 2.0: D5 duration 1.0
+bar 12 beat 3.0: C#5 duration 0.5
+bar 12 beat 3.5: B4 duration 0.5
+bar 12 beat 4.0: A4 duration 1.0
+
+bar 13 beat 1.0: F4 duration 0.5
+bar 13 beat 1.5: A4 duration 0.5
+bar 13 beat 2.0: C5 duration 0.5
+bar 13 beat 2.5: D5 duration 0.5
+bar 13 beat 3.0: E5 duration 0.5
+bar 13 beat 3.5: F5 duration 0.5
+bar 13 beat 4.0: E5 duration 1.0
+
+bar 14 beat 1.0: D5 duration 0.5
+bar 14 beat 1.5: C5 duration 0.5
+bar 14 beat 2.0: Bb4 duration 1.0
+bar 14 beat 3.0: B4 duration 0.5
+bar 14 beat 3.5: C5 duration 0.5
+bar 14 beat 4.0: D5 duration 1.0
+
+bar 15 beat 1.0: C5 duration 0.5
+bar 15 beat 1.5: E5 duration 0.5
+bar 15 beat 2.0: G5 duration 1.0
+bar 15 beat 3.0: F#5 duration 0.5
+bar 15 beat 3.5: F5 duration 0.5
+bar 15 beat 4.0: E5 duration 1.0
+
+bar 16 beat 1.0: D5 duration 0.5
+bar 16 beat 1.5: Bb4 duration 0.5
+bar 16 beat 2.0: A4 duration 1.0
+bar 16 beat 3.0: G4 duration 0.5
+bar 16 beat 3.5: A4 duration 0.5
+bar 16 beat 4.0: B4 duration 1.0
+
+bar 17 beat 1.0: C5 duration 0.5
+bar 17 beat 1.5: C#5 duration 0.5
+bar 17 beat 2.0: E5 duration 1.0
+bar 17 beat 3.0: F5 duration 0.5
+bar 17 beat 3.5: E5 duration 0.5
+bar 17 beat 4.0: D5 duration 1.0
+
+bar 18 beat 1.0: Bb4 duration 0.5
+bar 18 beat 1.5: A4 duration 0.5
+bar 18 beat 2.0: G4 duration 1.0
+bar 18 beat 3.0: F4 duration 0.5
+bar 18 beat 3.5: E4 duration 0.5
+bar 18 beat 4.0: D4 duration 1.0
+
+bar 19 beat 1.0: E4 duration 0.5
+bar 19 beat 1.5: G4 duration 0.5
+bar 19 beat 2.0: A4 duration 0.5
+bar 19 beat 2.5: C5 duration 0.5
+bar 19 beat 3.0: B4 duration 0.5
+bar 19 beat 3.5: Bb4 duration 0.5
+bar 19 beat 4.0: G#4 duration 1.0
+
+bar 20 beat 1.0: A4 duration 0.5
+bar 20 beat 1.5: C5 duration 0.5
+bar 20 beat 2.0: D5 duration 1.0
+bar 20 beat 3.0: C#5 duration 0.5
+bar 20 beat 3.5: B4 duration 0.5
+bar 20 beat 4.0: A4 duration 1.0
+
+bar 21 beat 1.0: F4 duration 0.5
+bar 21 beat 1.5: A4 duration 0.5
+bar 21 beat 2.0: C5 duration 1.0
+bar 21 beat 3.0: D5 duration 0.5
+bar 21 beat 3.5: F5 duration 0.5
+bar 21 beat 4.0: E5 duration 1.0
+
+bar 22 beat 1.0: Eb5 duration 0.5
+bar 22 beat 1.5: D5 duration 0.5
+bar 22 beat 2.0: Db5 duration 0.5
+bar 22 beat 2.5: C5 duration 0.5
+bar 22 beat 3.0: B4 duration 0.5
+bar 22 beat 3.5: A4 duration 0.5
+bar 22 beat 4.0: G4 duration 1.0
+
+bar 23 beat 1.0: F#4 duration 0.5
+bar 23 beat 1.5: A4 duration 0.5
+bar 23 beat 2.0: B4 duration 1.0
+bar 23 beat 3.0: D5 duration 0.5
+bar 23 beat 3.5: C5 duration 0.5
+bar 23 beat 4.0: B4 duration 1.0
+
+bar 24 beat 1.0: C5 duration 0.5
+bar 24 beat 1.5: E5 duration 0.5
+bar 24 beat 2.0: G5 duration 1.0
+bar 24 beat 3.0: F5 duration 0.5
+bar 24 beat 3.5: E5 duration 0.5
+bar 24 beat 4.0: C#5 duration 1.0
+
+bar 25 beat 1.0: D5 duration 0.5
+bar 25 beat 1.5: F5 duration 0.5
+bar 25 beat 2.0: E5 duration 1.0
+bar 25 beat 3.0: D5 duration 0.5
+bar 25 beat 3.5: C5 duration 0.5
+bar 25 beat 4.0: Bb4 duration 1.0
+
+bar 26 beat 1.0: A4 duration 0.5
+bar 26 beat 1.5: G4 duration 0.5
+bar 26 beat 2.0: E4 duration 1.0
+bar 26 beat 3.0: F4 duration 0.5
+bar 26 beat 3.5: A4 duration 0.5
+bar 26 beat 4.0: C5 duration 1.0
+
+bar 27 beat 1.0: D#5 duration 0.5
+bar 27 beat 1.5: D5 duration 0.5
+bar 27 beat 2.0: C#5 duration 0.5
+bar 27 beat 2.5: B4 duration 0.5
+bar 27 beat 3.0: G4 duration 0.5
+bar 27 beat 3.5: A4 duration 0.5
+bar 27 beat 4.0: B4 duration 1.0
+
+bar 28 beat 1.0: C5 duration 0.5
+bar 28 beat 1.5: E5 duration 0.5
+bar 28 beat 2.0: G5 duration 0.5
+bar 28 beat 2.5: F5 duration 0.5
+bar 28 beat 3.0: E5 duration 1.0
+bar 28 beat 4.0: C#5 duration 1.0
+
+bar 29 beat 1.0: D5 duration 1.0
+bar 29 beat 2.0: F5 duration 0.5
+bar 29 beat 2.5: E5 duration 0.5
+bar 29 beat 3.0: D5 duration 0.5
+bar 29 beat 3.5: C5 duration 0.5
+bar 29 beat 4.0: Bb4 duration 1.0
+
+bar 30 beat 1.0: A4 duration 0.5
+bar 30 beat 1.5: G4 duration 0.5
+bar 30 beat 2.0: F4 duration 1.0
+bar 30 beat 3.0: E4 duration 0.5
+bar 30 beat 3.5: G4 duration 0.5
+bar 30 beat 4.0: A4 duration 1.0
+
+bar 31 beat 1.0: Bb4 duration 0.5
+bar 31 beat 1.5: A4 duration 0.5
+bar 31 beat 2.0: G4 duration 1.0
+bar 31 beat 3.0: F4 duration 0.5
+bar 31 beat 3.5: E4 duration 0.5
+bar 31 beat 4.0: D4 duration 1.0
+
+bar 32 beat 1.0: F4 duration 0.5
+bar 32 beat 1.5: A4 duration 0.5
+bar 32 beat 2.0: C5 duration 1.0
+bar 32 beat 3.0: B4 duration 0.5
+bar 32 beat 3.5: A4 duration 0.5
+bar 32 beat 4.0: D5 duration 1.0

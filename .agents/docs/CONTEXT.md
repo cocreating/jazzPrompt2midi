@@ -21,6 +21,12 @@ JazzPrompt2MIDI is a modern, web-based DAW-lite application designed for rapid j
 - **Tone.Transport**: Manages the master clock and relative beat positioning.
 - **Tone.Part**: Handles event-driven playback for the Chord and Melody tracks.
 - **Tone.Sampler**: Provides high-resolution acoustic piano playback using the Salamander set.
+- **Tone.Draw**: Used to synchronize the UI (Virtual Piano) with the audio engine's precise timing.
+
+### UI & Visualization
+- **Virtual Piano**: A custom Svelte component that visualizes MIDI notes in real-time.
+- **Real-time Sync**: Uses a `$state` Set of active MIDI numbers. Notes are added/removed via `Tone.Draw` callbacks scheduled within the `Tone.Part` loop, ensuring perfect visual-to-audio alignment.
+- **Zen Mode**: A distraction-free layout that focuses strictly on the text editor, hiding all visualization and metadata panels.
 
 ### MIDI Generation
 - **Format**: MIDI Format 1 (Multi-track).

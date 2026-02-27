@@ -2,6 +2,7 @@
 import defaultPayload from './defaultPayload.txt?raw';
 import { Chord } from 'tonal';
 import * as Tone from 'tone';
+import VirtualPiano from './lib/VirtualPiano.svelte';
 
 let payload = $state(defaultPayload);
 
@@ -61,6 +62,35 @@ let sampler = null;
 let melodyPart = null;
 let chordsPart = null;
 let stopEventId = null;
+let showOptions = $state(false);
+
+// Real-time note visualization
+let activeNotes = $state(new Set());
+
+const noteToMidi = (note) => {
+    return Tone.Frequency(note).toMidi();
+};
+
+const addActiveNote = (note) => {
+    const midi = typeof note === 'string' ? noteToMidi(note) : note;
+    activeNotes.add(midi);
+    activeNotes = new Set(activeNotes); // Force Svelte 5 reactivity
+};
+
+const removeActiveNote = (note) => {
+    const midi = typeof note === 'string' ? noteToMidi(note) : note;
+    activeNotes.delete(midi);
+    activeNotes = new Set(activeNotes); // Force Svelte 5 reactivity
+};
+
+const clearActiveNotes = () => {
+    activeNotes = new Set();
+};
+
+// Options state
+let instrument = $state('piano');
+let voicingMode = $state('jazz'); // basic, jazz, wide
+let zenMode = $state(false);
 
 const stopSequence = () => {
     isPlaying = false;
@@ -69,6 +99,7 @@ const stopSequence = () => {
     Tone.Transport.stop();
     Tone.Transport.cancel();
     stopEventId = null;
+    clearActiveNotes();
     if (sampler) {
         sampler.releaseAll(Tone.now());
     }
@@ -107,6 +138,12 @@ const setupParts = () => {
 
     melodyPart = new Tone.Part((t, e) => {
         sampler.triggerAttackRelease(e.note, e.dur, t, e.vel);
+        Tone.Draw.schedule(() => {
+            addActiveNote(e.note);
+        }, t);
+        Tone.Draw.schedule(() => {
+            removeActiveNote(e.note);
+        }, t + e.dur);
     }, melEvents).start(0);
 
     const chdEvents = [];
@@ -115,7 +152,7 @@ const setupParts = () => {
         m.chords.forEach(ch => {
             const timeVal = (m.bar - firstBar) * spbar + beatOffset * spb;
             const durVal = ch.dur * spb;
-            const notes = Chord.get(ch.name).notes.map(n => n + "3");
+            const notes = getVoicedNotes(ch.name);
             chdEvents.push({ time: timeVal, notes, dur: durVal, vel: 0.4 });
             beatOffset += ch.dur;
         });
@@ -123,6 +160,12 @@ const setupParts = () => {
 
     chordsPart = new Tone.Part((t, e) => {
         sampler.triggerAttackRelease(e.notes, e.dur, t, e.vel);
+        Tone.Draw.schedule(() => {
+            e.notes.forEach(n => addActiveNote(n));
+        }, t);
+        Tone.Draw.schedule(() => {
+            e.notes.forEach(n => removeActiveNote(n));
+        }, t + e.dur);
     }, chdEvents).start(0);
 
     // Calculate end of sequence
@@ -137,8 +180,39 @@ const setupParts = () => {
             isPlaying = false;
             isPaused = false;
             statusText = "Ready";
+            clearActiveNotes();
         }, t);
     }, lastTime + 0.1);
+};
+
+const getVoicedNotes = (chordName) => {
+    const c = Chord.get(chordName);
+    const root = c.tonic;
+    const notes = c.notes;
+
+    if (voicingMode === 'basic') {
+        return notes.map(n => n + "3");
+    }
+
+    if (voicingMode === 'jazz') {
+        // Simple 3-7-9-13 or similar rootless voicing logic
+        // For now, let's just do a 3rd and 7th based shell if 4 notes aren't available
+        // Or just shift them to a sensible jazz range
+        return notes.map((n, i) => {
+            if (i === 0) return n + "3"; // Root
+            if (i === 1) return n + "4"; // 3rd up
+            if (i === 2) return n + "3"; // 5th back down
+            return n + "4"; // 7th/extensions up
+        });
+    }
+
+    if (voicingMode === 'wide') {
+        return notes.map((n, i) => {
+            return n + (i % 2 === 0 ? "2" : "4"); // Alternating octaves for width
+        });
+    }
+
+    return notes.map(n => n + "3");
 };
 
 let syncTimeout = null;
@@ -165,22 +239,50 @@ const togglePlay = async () => {
     if (!bpm || !time || (!notesCount && !chordsCount)) { statusText = "Invalid Payload Data"; return; }
 
     if (!sampler) {
-        statusText = "Downloading Piano Samples...";
-        sampler = new Tone.Sampler({
-            urls: {
-                A0: "A0.mp3", C1: "C1.mp3", "D#1": "Ds1.mp3", "F#1": "Fs1.mp3",
-                A1: "A1.mp3", C2: "C2.mp3", "D#2": "Ds2.mp3", "F#2": "Fs2.mp3",
-                A2: "A2.mp3", C3: "C3.mp3", "D#3": "Ds3.mp3", "F#3": "Fs3.mp3",
-                A3: "A3.mp3", C4: "C4.mp3", "D#4": "Ds4.mp3", "F#4": "Fs4.mp3",
-                A4: "A4.mp3", C5: "C5.mp3", "D#5": "Ds5.mp3", "F#5": "Fs5.mp3",
-                A5: "A5.mp3", C6: "C6.mp3", "D#6": "Ds6.mp3", "F#6": "Fs6.mp3",
-                A6: "A6.mp3", C7: "C7.mp3", "D#7": "Ds7.mp3", "F#7": "Fs7.mp3",
-                A7: "A7.mp3", C8: "C8.mp3"
-            },
-            release: 1,
-            baseUrl: "https://tonejs.github.io/audio/salamander/"
-        }).toDestination();
-        await Tone.loaded();
+        const pianoUrls = {
+            A0: "A0.mp3", C1: "C1.mp3", "D#1": "Ds1.mp3", "F#1": "Fs1.mp3",
+            A1: "A1.mp3", C2: "C2.mp3", "D#2": "Ds2.mp3", "F#2": "Fs2.mp3",
+            A2: "A2.mp3", C3: "C3.mp3", "D#3": "Ds3.mp3", "F#3": "Fs3.mp3",
+            A3: "A3.mp3", C4: "C4.mp3", "D#4": "Ds4.mp3", "F#4": "Fs4.mp3",
+            A4: "A4.mp3", C5: "C5.mp3", "D#5": "Ds5.mp3", "F#5": "Fs5.mp3",
+            A5: "A5.mp3", C6: "C6.mp3", "D#6": "Ds6.mp3", "F#6": "Fs6.mp3",
+            A6: "A6.mp3", C7: "C7.mp3", "D#7": "Ds7.mp3", "F#7": "Fs7.mp3",
+            A7: "A7.mp3", C8: "C8.mp3"
+        };
+
+        const guitarUrls = {
+            "F#2": "Fs2.mp3", "F#3": "Fs3.mp3", "F#4": "Fs4.mp3", "F#5": "Fs5.mp3",
+            G2: "G2.mp3", G3: "G3.mp3", G4: "G4.mp3", G5: "G5.mp3",
+            "G#2": "Gs2.mp3", "G#3": "Gs3.mp3", "G#4": "Gs4.mp3", "G#5": "Gs5.mp3",
+            A2: "A2.mp3", A3: "A3.mp3", A4: "A4.mp3", A5: "A5.mp3",
+            "A#2": "As2.mp3", "A#3": "As3.mp3", "A#4": "As4.mp3", "A#5": "As5.mp3",
+            B2: "B2.mp3", B3: "B3.mp3", B4: "B4.mp3", B5: "B5.mp3",
+            C3: "C3.mp3", C4: "C4.mp3", C5: "C5.mp3", C6: "C6.mp3",
+            "C#3": "Cs3.mp3", "C#4": "Cs4.mp3", "C#5": "Cs5.mp3", "C#6": "Cs6.mp3",
+            D3: "D3.mp3", D4: "D4.mp3", D5: "D5.mp3", D6: "D6.mp3",
+            "D#3": "Ds3.mp3", "D#4": "Ds4.mp3", "D#5": "Ds5.mp3", "D#6": "Ds6.mp3",
+            E2: "E2.mp3", E3: "E3.mp3", E4: "E4.mp3", E5: "E5.mp3"
+        };
+
+        const selectedUrls = instrument === 'piano' ? pianoUrls : guitarUrls;
+        const selectedBase = instrument === 'piano'
+            ? "https://tonejs.github.io/audio/salamander/"
+            : "https://nbrosowsky.github.io/tonejs-instruments/samples/guitar-acoustic/";
+
+        statusText = `Downloading ${instrument} Samples...`;
+        try {
+            sampler = new Tone.Sampler({
+                urls: selectedUrls,
+                release: 1,
+                baseUrl: selectedBase
+            }).toDestination();
+            await Tone.loaded();
+        } catch (err) {
+            console.error("Sampler loading failed:", err);
+            statusText = `Error loading ${instrument} samples. Check connection.`;
+            sampler = null;
+            return;
+        }
     }
 
     await Tone.start();
@@ -252,9 +354,9 @@ const exportMidi = () => {
             const stBeat = (m.bar - firstBar) * bpb + beatOffset;
             const stTick = Math.max(0, Math.round(stBeat * 480));
             const endTick = Math.max(stTick + 1, Math.round((stBeat + ch.dur) * 480));
-            const notes = Chord.get(ch.name).notes;
+            const notes = getVoicedNotes(ch.name);
             notes.forEach(note => {
-                const nn = midiNotNum(note + "3");
+                const nn = midiNotNum(note);
                 cEvents.push({ t: stTick, on: true, nn, vel: 60 }, { t: endTick, on: false, nn });
             });
             beatOffset += ch.dur;
@@ -299,9 +401,25 @@ const updateMeta = (tag, val) => {
         }
     }
 };
+
+const templates = {
+    'Blues in Bb': `TITLE: Blues in Bb\nTEMPO: 120 BPM\nKEY: Bb\nTIME: 4/4\nBARS: 12\n\nCHORDS:\nbar 1: Bb7\nbar 2: Eb7\nbar 3: Bb7\nbar 4: Bb7\nbar 5: Eb7\nbar 6: Edim7\nbar 7: Bb7\nbar 8: G7alt\nbar 9: Cm7\nbar 10: F7alt\nbar 11: Bb7 G7alt\nbar 12: Cm7 F7alt\n\nMELODY:\nbar 1 beat 1: F4 duration 0.5\nbar 1 beat 1.5: D4 duration 0.5\n`,
+    'II-V-I in C': `TITLE: II-V-I in C\nTEMPO: 110 BPM\nKEY: C\nTIME: 4/4\nBARS: 4\n\nCHORDS:\nbar 1: Dm7\nbar 2: G7\nbar 3: Cmaj7\nbar 4: Cmaj7\n\nMELODY:\nbar 1 beat 1: F4 duration 1.0\nbar 2 beat 1: B3 duration 1.0\nbar 3 beat 1: C4 duration 2.0\n`,
+    'Rhythm Changes (A)': `TITLE: Rhythm Changes A Section\nTEMPO: 180 BPM\nKEY: Bb\nTIME: 4/4\nBARS: 8\n\nCHORDS:\nbar 1: Bb6 G7\nbar 2: Cm7 F7\nbar 3: Bb6 G7\nbar 4: Cm7 F7\nbar 5: Fm7 Bb7\nbar 6: Eb7 Ebm7\nbar 7: Bb6 G7\nbar 8: Cm7 F7\n\nMELODY:\nbar 1 beat 1: D4 duration 0.5\n`
+};
+
+const loadTemplate = (name) => {
+    payload = templates[name];
+    showOptions = false;
+    statusText = `Loaded template: ${name}`;
+};
+
+const toggleOptions = () => {
+    showOptions = !showOptions;
+};
 </script>
 
-<main class="app-container">
+<main class="app-container" class:zen={zenMode}>
     <header class="window-header">
         <div class="window-controls">
             <div class="mac-btn close"></div>
@@ -316,50 +434,56 @@ const updateMeta = (tag, val) => {
         </div>
     </header>
 
-    <div class="status-bar">
-        <div class="stat">
-            <span>BPM</span>
-            <input
-                type="text"
-                value={bpm}
-                onchange={(e) => updateMeta('TEMPO', e.currentTarget.value)}
-                spellcheck="false"
-            />
+    <div class="main-content">
+        <div class="status-bar">
+            <div class="stat">
+                <span>BPM</span>
+                <input
+                    type="text"
+                    value={bpm}
+                    onchange={(e) => updateMeta('TEMPO', e.currentTarget.value)}
+                    spellcheck="false"
+                />
+            </div>
+            <div class="stat">
+                <span>KEY</span>
+                <input
+                    type="text"
+                    value={key}
+                    onchange={(e) => updateMeta('KEY', e.currentTarget.value)}
+                    spellcheck="false"
+                />
+            </div>
+            <div class="stat">
+                <span>TIME</span>
+                <input
+                    type="text"
+                    value={time}
+                    onchange={(e) => updateMeta('TIME', e.currentTarget.value)}
+                    spellcheck="false"
+                />
+            </div>
+            <div class="stat">
+                <span>BARS</span>
+                <input
+                    type="text"
+                    value={bars}
+                    onchange={(e) => updateMeta('BARS', e.currentTarget.value)}
+                    spellcheck="false"
+                />
+            </div>
+            <div class="stat"><span>NOTES</span> <strong>{notesCount}</strong></div>
+            <div class="stat"><span>CHORDS</span> <strong>{chordsCount}</strong></div>
         </div>
-        <div class="stat">
-            <span>KEY</span>
-            <input
-                type="text"
-                value={key}
-                onchange={(e) => updateMeta('KEY', e.currentTarget.value)}
-                spellcheck="false"
-            />
-        </div>
-        <div class="stat">
-            <span>TIME</span>
-            <input
-                type="text"
-                value={time}
-                onchange={(e) => updateMeta('TIME', e.currentTarget.value)}
-                spellcheck="false"
-            />
-        </div>
-        <div class="stat">
-            <span>BARS</span>
-            <input
-                type="text"
-                value={bars}
-                onchange={(e) => updateMeta('BARS', e.currentTarget.value)}
-                spellcheck="false"
-            />
-        </div>
-        <div class="stat"><span>NOTES</span> <strong>{notesCount}</strong></div>
-        <div class="stat"><span>CHORDS</span> <strong>{chordsCount}</strong></div>
+
+        <section class="editor-section">
+            <textarea bind:value={payload} spellcheck="false"></textarea>
+        </section>
     </div>
 
-    <section class="editor-section">
-        <textarea bind:value={payload} spellcheck="false"></textarea>
-    </section>
+    {#if !zenMode}
+        <VirtualPiano {activeNotes} />
+    {/if}
 
     <footer class="footer-controls">
         <div class="playback-controls">
@@ -382,13 +506,63 @@ const updateMeta = (tag, val) => {
                     <path d="M6 6h12v12H6z" />
                 </svg>
             </button>
-            <button class="icon-btn" aria-label="Options" onclick={() => statusText = "Options menu toggled"}>
+            <button class="icon-btn" aria-label="Options" onclick={toggleOptions} class:active={showOptions}>
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" /></svg>
             </button>
         </div>
         <div class="sys-msg">>{statusText}</div>
         <button class="btn-primary" onclick={exportMidi}>MIDI</button>
     </footer>
+
+    {#if showOptions}
+    <div
+        class="options-overlay"
+        onclick={toggleOptions}
+        onkeydown={(e) => e.key === 'Escape' && toggleOptions()}
+        role="button"
+        tabindex="-1"
+        aria-label="Close options"
+    >
+        <div class="options-content" onclick={(e) => e.stopPropagation()} role="presentation">
+            <h3>OPTIONS</h3>
+
+            <div class="option-group">
+                <label for="instr-select">Instrument</label>
+                <select id="instr-select" bind:value={instrument} onchange={() => { if(sampler) { sampler.dispose(); sampler = null; } }}>
+                    <option value="piano">Salamander Piano</option>
+                    <option value="guitar">Acoustic Guitar</option>
+                </select>
+            </div>
+
+            <div class="option-group">
+                <label for="voicing-select">Voicing Mode</label>
+                <select id="voicing-select" bind:value={voicingMode}>
+                    <option value="basic">Basic (1-3-5-7)</option>
+                    <option value="jazz">Jazz (Rootless/3-7)</option>
+                    <option value="wide">Wide (Open Position)</option>
+                </select>
+            </div>
+
+            <div class="option-group">
+                <label for="zen-toggle">Layout</label>
+                <button id="zen-toggle" class="toggle-btn" class:active={zenMode} onclick={() => zenMode = !zenMode}>
+                    {zenMode ? 'Exit Zen Mode' : 'Enter Zen Mode'}
+                </button>
+            </div>
+
+            <div class="option-group">
+                <span class="group-label">Templates</span>
+                <div class="template-grid">
+                    {#each Object.keys(templates) as name}
+                        <button onclick={() => loadTemplate(name)}>{name}</button>
+                    {/each}
+                </div>
+            </div>
+
+            <button class="close-options" onclick={toggleOptions}>CLOSE</button>
+        </div>
+    </div>
+    {/if}
 </main>
 
 <style>
@@ -511,8 +685,11 @@ const updateMeta = (tag, val) => {
     background: rgba(0, 255, 204, 0.1);
 }
 
-.stat strong {
-    color: #00ffcc;
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .editor-section {
@@ -601,6 +778,106 @@ textarea:focus {
     color: #000;
 }
 
+/* Options Overlay */
+.options-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.options-content {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 400px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+.options-content h3 {
+    margin-top: 0;
+    color: #ff00ff;
+    letter-spacing: 2px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 0.5rem;
+}
+
+.option-group {
+    margin-bottom: 1.5rem;
+}
+
+.option-group label, .group-label {
+    display: block;
+    font-size: 0.75rem;
+    color: #888;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.option-group select, .toggle-btn {
+    width: 100%;
+    background: #2a2a2a;
+    border: 1px solid #444;
+    color: #00ffcc;
+    padding: 0.5rem;
+    font-family: inherit;
+    border-radius: 4px;
+    outline: none;
+}
+
+.template-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+}
+
+.template-grid button {
+    background: #222;
+    border: 1px solid #333;
+    color: #ccc;
+    padding: 0.4rem;
+    font-family: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-align: left;
+}
+
+.template-grid button:hover {
+    background: #333;
+    color: #fff;
+}
+
+.close-options {
+    width: 100%;
+    margin-top: 1rem;
+    background: transparent;
+    border: 1px solid #ff00ff;
+    color: #ff00ff;
+    padding: 0.5rem;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: bold;
+}
+
+.icon-btn.active {
+    background: #ff00ff;
+    color: #000;
+    border-color: #ff00ff;
+}
+
+.zen .window-header, .zen .status-bar {
+    display: none !important;
+}
+
 @media (min-width: 22.5em) { /* 360px */
     .title { font-size: 1.1rem; }
     .status-bar { padding: 0.5rem 1rem; }
@@ -635,8 +912,8 @@ textarea:focus {
 
 @media (min-width: 64em) { /* 1024px */
     .app-container {
-        width: 960px;
-        height: 640px;
+        width: 1000px;
+        height: 800px;
     }
 }
 </style>
