@@ -346,9 +346,9 @@ const togglePlay = async () => {
 
         const baseUrls = {
             piano: "https://tonejs.github.io/audio/salamander/",
-            'bright-piano': "https://nbrosowsky.github.io/tonejs-instruments/samples/piano/",
+            'bright-piano': "https://raw.githubusercontent.com/nbrosowsky/tonejs-instruments/master/samples/piano/",
             'electric-piano': "https://raw.githubusercontent.com/Alexander-T-S/Tone.js-Instruments/master/samples/piano-electric/",
-            guitar: "https://nbrosowsky.github.io/tonejs-instruments/samples/guitar-acoustic/"
+            guitar: "https://raw.githubusercontent.com/nbrosowsky/tonejs-instruments/master/samples/guitar-acoustic/"
         };
 
         const selectedUrlsMap = selectedUrls[instrument] || selectedUrls.piano;
