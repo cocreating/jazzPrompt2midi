@@ -23,7 +23,7 @@ const defaultsMap = Object.entries(rawDefaults).reduce((acc, [path, content]) =>
 const defaultItems = Object.values(defaultsMap).sort((a, b) => a.label.localeCompare(b.label));
 
 let selectedDefault = $state(defaultItems[0]?.id || '');
-let payload = $state(defaultsMap[selectedDefault]?.content || '');
+let payload = $state(defaultItems[0]?.content || '');
 
 $effect(() => {
     if (selectedDefault && defaultsMap[selectedDefault]) {
