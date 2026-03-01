@@ -831,7 +831,8 @@ textarea:focus {
     font-size: 0.7rem;
     outline: none;
     cursor: pointer;
-    max-width: 180px;
+    min-width: 150px;
+    max-width: 300px;
     height: 24px;
 }
 
