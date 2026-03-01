@@ -453,23 +453,38 @@ const toggleOptions = () => {
 
 <main class="app-container" class:zen={zenMode}>
     <header class="window-header">
-        <div class="window-controls">
-            <div class="mac-btn close"></div>
-            <div class="mac-btn minimize"></div>
-            <div class="mac-btn maximize"></div>
+        <div class="playback-controls header-controls">
+            <button class="icon-btn" onclick={togglePlay} aria-label={isPlaying ? "Pause" : "Play"}>
+                {#if isPlaying}
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                </svg>
+                {:else}
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                    <path d="M8 5v14l11-7z" />
+                </svg>
+                {/if}
+            </button>
+            <button class="icon-btn" onclick={stopSequence} aria-label="Stop/Restart">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                    <path d="M6 6h12v12H6z" />
+                </svg>
+            </button>
         </div>
         <div class="titles">
             <h1 class="title">JAZZPROMPT2MIDI</h1>
         </div>
-        <div class="default-select-wrap">
-            <select bind:value={selectedDefault} aria-label="Select default payload">
-                {#each defaultItems as item}
-                    <option value={item.id}>{item.label}</option>
-                {/each}
-            </select>
-        </div>
-        <div class="subtitle-wrap">
-            <h2 class="subtitle">THE MOST IMPORTANT</h2>
+        <div class="header-right">
+            <div class="default-select-wrap">
+                <select bind:value={selectedDefault} aria-label="Select default payload">
+                    {#each defaultItems as item}
+                        <option value={item.id}>{item.label}</option>
+                    {/each}
+                </select>
+            </div>
+            <button class="icon-btn options-btn" aria-label="Options" onclick={toggleOptions} class:active={showOptions}>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" /></svg>
+            </button>
         </div>
     </header>
 
@@ -530,27 +545,6 @@ const toggleOptions = () => {
 
     <footer class="footer-controls">
         <div class="footer-inner">
-            <div class="playback-controls">
-                <button class="icon-btn" onclick={togglePlay} aria-label={isPlaying ? "Pause" : "Play"}>
-                    {#if isPlaying}
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-                    </svg>
-                    {:else}
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                        <path d="M8 5v14l11-7z" />
-                    </svg>
-                    {/if}
-                </button>
-                <button class="icon-btn" onclick={stopSequence} aria-label="Stop/Restart">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                        <path d="M6 6h12v12H6z" />
-                    </svg>
-                </button>
-                <button class="icon-btn" aria-label="Options" onclick={toggleOptions} class:active={showOptions}>
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" /></svg>
-                </button>
-            </div>
             <div class="sys-msg">>{statusText}</div>
             <button class="btn-primary" onclick={exportMidi}>MIDI</button>
         </div>
@@ -624,8 +618,8 @@ const toggleOptions = () => {
 .app-container {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    height: 100%;
+width: 100vw;
+    height: 100vh;
     background-color: #0d0d0d;
     border: 1px solid #333;
     box-shadow: 0 0 30px rgba(0,0,0,0.8);
@@ -634,65 +628,59 @@ const toggleOptions = () => {
 .window-header {
     display: flex;
     align-items: center;
-    padding: 0.75rem 1rem;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
     background: linear-gradient(180deg, #2a2a2a, #1a1a1a);
     border-bottom: 1px solid #000;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 1rem;
 }
 
-.window-controls {
+.playback-controls.header-controls {
     display: flex;
     gap: 0.5rem;
 }
 
-.mac-btn {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-}
-
-.mac-btn.close { background-color: #ff5f56; }
-.mac-btn.minimize { background-color: #ffbd2e; }
-.mac-btn.maximize { background-color: #27c93f; }
-
 .titles {
     flex: 1;
     text-align: center;
-    min-width: 150px;
 }
 
 .title {
     margin: 0;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: bold;
     color: #fff;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
 }
 
-.default-select-wrap {
-    margin-right: 1rem;
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .default-select-wrap select {
-    background: #2a2a2a;
-    color: #ddd;
+    background: #000;
+    color: #00ffcc;
     border: 1px solid #444;
     padding: 2px 5px;
-    font-size: 0.8rem;
-    border-radius: 4px;
-}
-
-.subtitle-wrap {
-    text-align: right;
-}
-
-.subtitle {
-    margin: 0;
     font-size: 0.75rem;
-    color: #888;
-    text-transform: uppercase;
+    border-radius: 4px;
+    outline: none;
 }
+
+.options-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: #ccc;
+    padding: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.options-btn:hover { color: #fff; }
+.options-btn.active { color: #00ffcc; border-color: #00ffcc; }
 
 .status-bar-outer {
     width: 100%;
@@ -885,10 +873,13 @@ textarea:focus {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .window-header { justify-content: center; }
-    .window-controls { display: none; }
-    .titles { flex: none; width: 100%; order: -1; margin-bottom: 0.5rem; }
-    .subtitle-wrap { display: none; }
+    .window-header {
+        flex-direction: column;
+        padding: 0.75rem;
+        gap: 0.75rem;
+    }
+    .titles { order: -1; width: 100%; }
+    .title { font-size: 0.85rem; }
 
     .status-bar .stat { min-width: 30%; border: none; }
 
