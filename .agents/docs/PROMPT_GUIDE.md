@@ -18,6 +18,7 @@ Format: `bar [N]: [ChordName] ([Beats]) ...`
 - **Flexible Durations**: Support for `Chord (beats)` and attached `Chord(beats)` (e.g., `Fm9(4)`).
 - **Complex Extensions**: Support for internal parentheses in chord names (e.g., `G13(b9)(4)` or `Fm(maj7)`).
 - **Slash Chords**: Standard support for bass-voiced chords like `Ebmaj9/G`.
+- **Chord Velocity**: Can be set individually (e.g., `Cmaj7(4, velocity 90)`) or for the entire bar (e.g., `bar 1: Cmaj7 G7 velocity 100`).
 - **Chord Types**: Supports full extensions (e.g., `13b9`, `maj9#11`, `m11`, `ø7`, `dim7`).
 
 ### Melody Syntax

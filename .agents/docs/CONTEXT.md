@@ -28,6 +28,10 @@ JazzPrompt2MIDI is a modern, web-based DAW-lite application designed for rapid j
 - **Real-time Sync**: Uses a `$state` Set of active MIDI numbers. Notes are added/removed via `Tone.Draw` callbacks scheduled within the `Tone.Part` loop, ensuring perfect visual-to-audio alignment.
 - **Zen Mode**: A distraction-free layout that focuses strictly on the text editor, hiding all visualization and metadata panels.
 
+### Options & Performance
+- **Global Options**: A `$state` object manages `instrument` (Piano/Guitar), `voicingMode` (Basic/Jazz/Wide), and `zenMode`.
+- **Dynamic Sampling**: Switching instruments triggers a dynamic reload of the `Tone.Sampler` with appropriate URL maps, ensuring high-fidelity playback without bloating the initial page load.
+
 ### MIDI Generation
 - **Format**: MIDI Format 1 (Multi-track).
 - **Tracks**: Track 1 contains Meta messages (Tempo, Time Sig) and Chords. Track 2 contains the Melody.
