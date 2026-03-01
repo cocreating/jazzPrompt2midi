@@ -1,10 +1,25 @@
 <script>
-import defaultPayload from './defaultPayload.txt?raw';
 import { Chord } from 'tonal';
 import * as Tone from 'tone';
 import VirtualPiano from './lib/VirtualPiano.svelte';
 
-let payload = $state(defaultPayload);
+// Load default payloads from assets folder
+const rawDefaults = import.meta.glob('./assets/defaults/*.txt', { query: '?raw', eager: true });
+const defaultsMap = Object.entries(rawDefaults).reduce((acc, [path, content]) => {
+    const filename = path.split('/').pop();
+    acc[filename] = content.default;
+    return acc;
+}, {});
+const defaultFilenames = Object.keys(defaultsMap);
+
+let selectedDefault = $state(defaultFilenames[0] || '');
+let payload = $state(defaultsMap[selectedDefault] || '');
+
+$effect(() => {
+    if (selectedDefault && defaultsMap[selectedDefault]) {
+        payload = defaultsMap[selectedDefault];
+    }
+});
 
 let extractMeta = $derived((regex) => {
     const m = payload.match(regex);
@@ -539,6 +554,13 @@ const toggleOptions = () => {
             <button class="icon-btn" aria-label="Options" onclick={toggleOptions} class:active={showOptions}>
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" /></svg>
             </button>
+            <div class="default-select-wrap">
+                <select bind:value={selectedDefault} aria-label="Select default payload">
+                    {#each defaultFilenames as filename}
+                        <option value={filename}>{filename}</option>
+                    {/each}
+                </select>
+            </div>
         </div>
         <div class="sys-msg">>{statusText}</div>
         <button class="btn-primary" onclick={exportMidi}>MIDI</button>
@@ -777,6 +799,29 @@ textarea:focus {
 .icon-btn:hover {
     background: #444;
     color: #fff;
+}
+
+.default-select-wrap {
+    margin-left: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.default-select-wrap select {
+    background: #2a2a2a;
+    border: 1px solid #444;
+    color: #00ffcc;
+    border-radius: 4px;
+    padding: 0.3rem 0.5rem;
+    font-family: inherit;
+    font-size: 0.75rem;
+    outline: none;
+    cursor: pointer;
+    max-width: 150px;
+}
+
+.default-select-wrap select:hover {
+    border-color: #00ffcc;
 }
 
 .sys-msg {
