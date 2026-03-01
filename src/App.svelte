@@ -27,12 +27,19 @@ let melodyText = $derived((sections.find(s => s.match(/^MELODY/i)) || '').trim()
 let chordsMatches = $derived([...chordsText.matchAll(/bar (\d+):\s*(.+)/gi)]
     .map(m => {
         const barNum = parseInt(m[1]);
-        const lineContent = m[2];
+        let lineContent = m[2];
+
+        // Extract bar-level velocity if present (e.g., "velocity 82")
+        const barVelMatch = lineContent.match(/velocity\s+(\d+)/i);
+        const barVelocity = barVelMatch ? parseInt(barVelMatch[1]) : 80;
+        // Clean lineContent from bar-level velocity string
+        lineContent = lineContent.replace(/velocity\s+\d+/i, '').trim();
+
         // Improved Regex:
         // [A-G] starts the chord.
-        // (?:(?!\(\d)\S)* matches non-space chars as long as they aren't '(' followed by a digit.
-        // (?:\s*\((\d+(?:\.\d+)?)\))? matches the optional duration at the end.
-        const chordRegex = /([A-G](?:(?!\(\d)\S)*)(?:\s*\((\d+(?:\.\d+)?)\))?/g;
+        // (?:(?!\(\s*\d)\S)* matches non-space chars as long as they aren't '(' followed by a digit (start of parameters).
+        // (?:\s*\(([^)]+)\))? matches the parameters block.
+        const chordRegex = /([A-G](?:(?!\(\s*\d)\S)*)(?:\s*\(([^)]+)\))?/g;
         const res = [];
         let match;
 
@@ -45,8 +52,29 @@ let chordsMatches = $derived([...chordsText.matchAll(/bar (\d+):\s*(.+)/gi)]
         const parseRegex = new RegExp(chordRegex);
         while ((match = parseRegex.exec(lineContent)) !== null) {
             const name = match[1];
-            const dur = match[2] ? parseFloat(match[2]) : defaultDur;
-            res.push({ name, dur });
+            const paramStr = match[2] || "";
+
+            // Default duration and velocity
+            let dur = defaultDur;
+            let velocity = barVelocity;
+
+            if (paramStr) {
+                // Split parameters by comma or space
+                const params = paramStr.split(/[\s,]+/).filter(p => p.trim());
+                if (params.length > 0) {
+                    const d = parseFloat(params[0]);
+                    if (!isNaN(d)) dur = d;
+                }
+
+                // Look for velocity in params
+                const vIdx = params.findLastIndex(p => p.toLowerCase() === 'velocity');
+                if (vIdx !== -1 && params[vIdx + 1]) {
+                    const v = parseInt(params[vIdx + 1]);
+                    if (!isNaN(v)) velocity = v;
+                }
+            }
+
+            res.push({ name, dur, velocity });
         }
         return { bar: barNum, chords: res };
     }));
@@ -153,7 +181,8 @@ const setupParts = () => {
             const timeVal = (m.bar - firstBar) * spbar + beatOffset * spb;
             const durVal = ch.dur * spb;
             const notes = getVoicedNotes(ch.name);
-            chdEvents.push({ time: timeVal, notes, dur: durVal, vel: 0.4 });
+            const velVal = ch.velocity / 127;
+            chdEvents.push({ time: timeVal, notes, dur: durVal, vel: velVal });
             beatOffset += ch.dur;
         });
     });
@@ -355,9 +384,10 @@ const exportMidi = () => {
             const stTick = Math.max(0, Math.round(stBeat * 480));
             const endTick = Math.max(stTick + 1, Math.round((stBeat + ch.dur) * 480));
             const notes = getVoicedNotes(ch.name);
+            const vel = ch.velocity || 60;
             notes.forEach(note => {
                 const nn = midiNotNum(note);
-                cEvents.push({ t: stTick, on: true, nn, vel: 60 }, { t: endTick, on: false, nn });
+                cEvents.push({ t: stTick, on: true, nn, vel }, { t: endTick, on: false, nn });
             });
             beatOffset += ch.dur;
         });

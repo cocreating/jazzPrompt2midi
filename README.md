@@ -55,23 +55,28 @@ SWING: light
 BARS: 16
 
 CHORDS
-bar 1: Fmaj9
-bar 2: Am7b5 D7alt
-bar 3: Gm9 (2) C13 (2)
+bar 1: Bb6/9(4, velocity 88)
+bar 2: G7(b9)(2) C7(2) velocity 82
+bar 3: Fm7 (2) Bb7 (2)
+bar 4: Ebmaj9 (4)
+bar 8: Bb6(4, velocity 104)
 
 MELODY
-bar 1 beat 1.02: A4 duration 0.75
-bar 1 beat 1.89: C5 duration 0.62
+bar 1 beat 1.0: F4 duration 1.0 velocity 82
+bar 1 beat 1.89: C5 duration 0.62 velocity 90
 bar 2 beat 2.41: C5 duration 0.93
 ```
 
 ### Formatting Rules
 1.  **Metadata**: Must declare `TEMPO: [number]`, `TIME: [num/den]`, and `BARS: [number]`.
 2.  **`CHORDS` Section**: Must start with the literal word `CHORDS`.
-    *   Lines format: `bar [number]: [Chord1] [Chord2]...`
-    *   By default, chords on the same line divide the measure equally. To specify beat durations, trail them with parentheses: `Cm7 (3) F7 (1)`.
+    *   Lines format: `bar [number]: [Chord1] [Chord2]... [velocity X]`
+    *   By default, chords on the same line divide the measure equally.
+    *   To specify beat durations and velocity, trail them with parentheses: `Cm7(3)` or `Cm7(3, velocity 88)`.
+    *   Chord names with internal parentheses (like `G7(b9)`) are fully supported.
 3.  **`MELODY` Section**: Must start with the literal word `MELODY`.
-    *   Lines format: `bar [number] beat [float-position]: [PitchWithOctave] duration [float]`.
+    *   Lines format: `bar [number] beat [float-position]: [PitchWithOctave] duration [float] velocity [int]`.
+    *   Velocity is optional (defaults to ~80).
 
 ---
 
