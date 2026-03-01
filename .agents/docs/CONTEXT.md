@@ -24,7 +24,9 @@ JazzPrompt2MIDI is a modern, web-based DAW-lite application designed for rapid j
 - **Tone.Draw**: Used to synchronize the UI (Virtual Piano) with the audio engine's precise timing.
 
 ### UI & Visualization
-- **Virtual Piano**: A custom Svelte component that visualizes MIDI notes in real-time.
+- **Virtual Piano**: A custom Svelte component that visualizes MIDI notes in real-time. Now spans the full width of the application.
+- **Top Bar Controls**: Playback (Play/Stop) and Configuration (Options/Payload Selector) are integrated into the header for a desktop-native application feel.
+- **Centered Editor**: The main composition area is centered with a max-width constraint to maintain readability across ultra-wide and mobile screens.
 - **Real-time Sync**: Uses a `$state` Set of active MIDI numbers. Notes are added/removed via `Tone.Draw` callbacks scheduled within the `Tone.Part` loop, ensuring perfect visual-to-audio alignment.
 - **Zen Mode**: A distraction-free layout that focuses strictly on the text editor, hiding all visualization and metadata panels.
 

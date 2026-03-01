@@ -13,10 +13,12 @@ It acts as both a **Text-to-Audio** player and a **Text-to-MIDI** parser, built 
 *   **Acoustic Realism**: Bypasses raw synthetic sine waves by integrating **Tone.js** with high-resolution acoustic samples from the Salamander Yamaha Grand Piano.
 *   **Floating-Point Micro-Timing**: Interprets continuous, non-grid-locked human gesture from text inputs like `beat 1.63 duration 0.58`. Web Audio and Tone.js playback algorithms mathematically schedule audio graphs precisely without snapping/quantization.
 *   **Dual-Channel Polyphony (Chords + Melody)**: Uses the **`tonal`** music theory library to intelligently resolve complex jazz chord nomenclatures (e.g. `Am7b5`, `D7alt`, `Bbmaj7#11`) into stacked chord sets.
-*   **Virtual Piano Visualization**: Real-time visual feedback of active notes on a responsive virtual keyboard, synchronized with the audio engine via `Tone.Draw`.
-*   **Reactive Diagnostics**: Instantly updates UI metrics (BPM, Key, Notes Count, Chords Count) in real-time as the text prompt is edited.
-*   **Binary MIDI Compilation (`.mid`)**: Click "MIDI" to instantly encode the entire text payload into a Format-1 Multi-Track MIDI blob directly in the browser. Tracks isolate Chords and Melody onto discrete channels.
-*   **macOS Dark Mode**: Features a responsive Vanilla CSS desktop aesthetic mimicking macOS window borders.
+*   **Virtual Piano Visualization**: Real-time visual feedback of active notes on a full-width virtual keyboard, synchronized with the audio engine via `Tone.Draw`.
+*   **Reactive Diagnostics**: Instantly updates UI metrics (BPM, Key, Notes Count, Chords Count) in a full-width status bar as the text prompt is edited.
+*   **Centered Editor**: A focused, maximum-width text area for comfortable writing on any screen size.
+*   **Desktop-Grade Controls**: Play, Stop, and Options controls are conveniently located in the top-right and top-left header bar for a professional DAW-like feel.
+*   **Binary MIDI Compilation (`.mid`)**: Click "MIDI" in the footer to instantly encode the entire text payload into a Format-1 Multi-Track MIDI blob directly in the browser. Tracks isolate Chords and Melody onto discrete channels.
+*   **macOS Dark Mode**: Features a responsive Vanilla CSS desktop aesthetic mimicking macOS window borders, now fully optimized for mobile devices.
 *   **Svelte 5 "Runes" Architecture**: Built with cutting-edge Svelte 5 `$state` and `$derived` reactive primitives for maximal performance.
 
 ---
