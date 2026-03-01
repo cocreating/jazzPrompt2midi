@@ -44,7 +44,14 @@ It acts as both a **Text-to-Audio** player and a **Text-to-MIDI** parser, built 
 
 ## 📝 Payload Formatting Reference
 
-In order for the parser to correctly build the dual-track arrays, the input text *must* follow this explicit structural format. Note the blank lines and exact colon spacing. The default prompt is automatically loaded from `src/defaultPayload.txt`.
+### Dynamic Default Selection
+The application automatically scans `src/assets/defaults/` for any `.txt` files and populates a selection dropdown in the top-right header.
+*   **Automatic Detection**: Simply drop a new `.txt` file into the defaults folder to make it available.
+*   **Descriptive Labels**: The selector uses the `TITLE:` field from within the file as its display label.
+*   **Initial Load**: The first file (alphabetically by title) is loaded as the starting state.
+
+### Formatting Syntax
+In order for the parser to correctly build the dual-track arrays, the input text *must* follow this explicit structural format. Note the blank lines and exact colon spacing.
 
 ```text
 TITLE: Your Song Name
