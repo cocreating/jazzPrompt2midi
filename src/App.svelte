@@ -4,12 +4,10 @@ import * as Tone from 'tone';
 import VirtualPiano from './lib/VirtualPiano.svelte';
 
 // Load default payloads from assets folder dynamically
-// Vite's import.meta.glob with { eager: true, as: 'raw' } is the most robust way to get file contents as strings
 const rawDefaults = import.meta.glob('./assets/defaults/*.txt', { eager: true, as: 'raw' });
 
 const defaultsMap = Object.entries(rawDefaults).reduce((acc, [path, content]) => {
     const filename = path.split('/').pop();
-    // Use ? raw to get the string, then find Title
     const fileContent = content;
     const titleMatch = fileContent.match(/TITLE:\s*(.+)/i);
     const title = titleMatch ? titleMatch[1].trim() : filename;
@@ -45,32 +43,23 @@ let bars = $derived(parseInt(extractMeta(/BARS:\s*(\d+)/i)) || 0);
 
 let bpb = $derived(parseInt((time || '4/4').split('/')[0]) || 4);
 
-// Split payload into CHORDS and MELODY blocks
 let sections = $derived(payload.split(/(?=CHORDS|MELODY)/i));
 let chordsText = $derived((sections.find(s => s.match(/^CHORDS/i)) || '').trim());
 let melodyText = $derived((sections.find(s => s.match(/^MELODY/i)) || '').trim());
 
-// Parse chords
 let chordsMatches = $derived([...chordsText.matchAll(/bar (\d+):\s*(.+)/gi)]
     .map(m => {
         const barNum = parseInt(m[1]);
         let lineContent = m[2];
 
-        // Extract bar-level velocity if present (e.g., "velocity 82")
         const barVelMatch = lineContent.match(/velocity\s+(\d+)/i);
         const barVelocity = barVelMatch ? parseInt(barVelMatch[1]) : 80;
-        // Clean lineContent from bar-level velocity string
         lineContent = lineContent.replace(/velocity\s+\d+/i, '').trim();
 
-        // Improved Regex:
-        // [A-G] starts the chord.
-        // (?:(?!\(\s*\d)\S)* matches non-space chars as long as they aren't '(' followed by a digit (start of parameters).
-        // (?:\s*\(([^)]+)\))? matches the parameters block.
         const chordRegex = /([A-G](?:(?!\(\s*\d)\S)*)(?:\s*\(([^)]+)\))?/g;
         const res = [];
         let match;
 
-        // Use separate regex instances to avoid index overlapping
         const countRegex = new RegExp(chordRegex);
         let chordsInBar = 0;
         while (countRegex.exec(lineContent)) chordsInBar++;
@@ -81,19 +70,16 @@ let chordsMatches = $derived([...chordsText.matchAll(/bar (\d+):\s*(.+)/gi)]
             const name = match[1];
             const paramStr = match[2] || "";
 
-            // Default duration and velocity
             let dur = defaultDur;
             let velocity = barVelocity;
 
             if (paramStr) {
-                // Split parameters by comma or space
                 const params = paramStr.split(/[\s,]+/).filter(p => p.trim());
                 if (params.length > 0) {
                     const d = parseFloat(params[0]);
                     if (!isNaN(d)) dur = d;
                 }
 
-                // Look for velocity in params
                 const vIdx = params.findLastIndex(p => p.toLowerCase() === 'velocity');
                 if (vIdx !== -1 && params[vIdx + 1]) {
                     const v = parseInt(params[vIdx + 1]);
@@ -119,7 +105,6 @@ let chordsPart = null;
 let stopEventId = null;
 let showOptions = $state(false);
 
-// Real-time note visualization
 let activeNotes = $state(new Set());
 
 const noteToMidi = (note) => {
@@ -129,22 +114,21 @@ const noteToMidi = (note) => {
 const addActiveNote = (note) => {
     const midi = typeof note === 'string' ? noteToMidi(note) : note;
     activeNotes.add(midi);
-    activeNotes = new Set(activeNotes); // Force Svelte 5 reactivity
+    activeNotes = new Set(activeNotes);
 };
 
 const removeActiveNote = (note) => {
     const midi = typeof note === 'string' ? noteToMidi(note) : note;
     activeNotes.delete(midi);
-    activeNotes = new Set(activeNotes); // Force Svelte 5 reactivity
+    activeNotes = new Set(activeNotes);
 };
 
 const clearActiveNotes = () => {
     activeNotes = new Set();
 };
 
-// Options state
 let instrument = $state('piano');
-let voicingMode = $state('jazz'); // basic, jazz, wide
+let voicingMode = $state('jazz');
 let zenMode = $state(false);
 
 const stopSequence = () => {
@@ -175,14 +159,14 @@ const setupParts = () => {
     const firstChdBar = chordsMatches.length ? chordsMatches[0].bar : 999;
     const firstBar = Math.min(firstMelBar, firstChdBar);
 
-    const spb = 60.0 / bpm; // Seconds per beat
-    const spbar = bpb * spb; // Seconds per bar
+    const spb = 60.0 / bpm;
+    const spbar = bpb * spb;
 
     const melEvents = notesMatches.map(m => {
         const barNum = parseInt(m[1]);
         const beatInBar = parseFloat(m[2]);
         const timeVal = (barNum - firstBar) * spbar + (beatInBar - 1) * spb;
-        const velVal = m[5] ? parseInt(m[5]) / 127 : 0.63; // Default ~80 velocity
+        const velVal = m[5] ? parseInt(m[5]) / 127 : 0.63;
         return {
             time: timeVal,
             note: m[3],
@@ -224,7 +208,6 @@ const setupParts = () => {
         }, t + e.dur);
     }, chdEvents).start(0);
 
-    // Calculate end of sequence
     let lastTime = 0;
     [...melEvents, ...chdEvents].forEach(e => {
         const end = Tone.Time(e.time).toSeconds() + Tone.Time(e.dur).toSeconds();
@@ -243,7 +226,6 @@ const setupParts = () => {
 
 const getVoicedNotes = (chordName) => {
     const c = Chord.get(chordName);
-    const root = c.tonic;
     const notes = c.notes;
 
     if (voicingMode === 'basic') {
@@ -251,20 +233,17 @@ const getVoicedNotes = (chordName) => {
     }
 
     if (voicingMode === 'jazz') {
-        // Simple 3-7-9-13 or similar rootless voicing logic
-        // For now, let's just do a 3rd and 7th based shell if 4 notes aren't available
-        // Or just shift them to a sensible jazz range
         return notes.map((n, i) => {
-            if (i === 0) return n + "3"; // Root
-            if (i === 1) return n + "4"; // 3rd up
-            if (i === 2) return n + "3"; // 5th back down
-            return n + "4"; // 7th/extensions up
+            if (i === 0) return n + "3";
+            if (i === 1) return n + "4";
+            if (i === 2) return n + "3";
+            return n + "4";
         });
     }
 
     if (voicingMode === 'wide') {
         return notes.map((n, i) => {
-            return n + (i % 2 === 0 ? "2" : "4"); // Alternating octaves for width
+            return n + (i % 2 === 0 ? "2" : "4");
         });
     }
 
@@ -273,7 +252,6 @@ const getVoicedNotes = (chordName) => {
 
 let syncTimeout = null;
 $effect(() => {
-    // Re-sync if data changes while playing (debounced)
     if ((isPlaying || isPaused) && (notesMatches || chordsMatches || bpm || time)) {
         if (syncTimeout) clearTimeout(syncTimeout);
         syncTimeout = setTimeout(() => {
@@ -373,7 +351,6 @@ const exportMidi = () => {
     const p32 = (v) => [(v>>24)&0xff, (v>>16)&0xff, (v>>8)&0xff, v&0xff];
     const p16 = (v) => [(v>>8)&0xff, v&0xff];
 
-    // Format 1 (multi-track), 2 tracks (chords, melody), 480 ticks
     const hdr = [...pStr('MThd'), ...p32(6), ...p16(1), ...p16(2), ...p16(480)];
 
     const uspqn = Math.floor(60000000 / bpm);
@@ -389,7 +366,7 @@ const exportMidi = () => {
             trk.push(0, 0xFF, 0x51, 0x03, (uspqn>>16)&0xff, (uspqn>>8)&0xff, uspqn&0xff);
             trk.push(0, 0xFF, 0x58, 0x04, num || 4, Math.log2(den || 4), 24, 8);
         }
-        trk.push(0, 0xFF, 0x03, name.length, ...pStr(name)); // Track name event
+        trk.push(0, 0xFF, 0x03, name.length, ...pStr(name));
 
         events.sort((a,b) => a.t - b.t || (a.on ? 1 : -1));
         let lastT = 0;
@@ -402,7 +379,6 @@ const exportMidi = () => {
         return [...pStr('MTrk'), ...p32(trk.length), ...trk];
     }
 
-    // Chords Trk
     let cEvents = [];
     chordsMatches.forEach(m => {
         let beatOffset = 0;
@@ -420,7 +396,6 @@ const exportMidi = () => {
         });
     });
 
-    // Melody Trk
     let mEvents = [];
     notesMatches.forEach(m => {
         const stBeat = (parseInt(m[1]) - firstBar) * bpb + (parseFloat(m[2]) - 1);
@@ -499,49 +474,53 @@ const toggleOptions = () => {
     </header>
 
     <div class="main-content">
-        <div class="status-bar">
-            <div class="stat">
-                <span>BPM</span>
-                <input
-                    type="text"
-                    value={bpm}
-                    onchange={(e) => updateMeta('TEMPO', e.currentTarget.value)}
-                    spellcheck="false"
-                />
+        <div class="status-bar-outer">
+            <div class="status-bar">
+                <div class="stat">
+                    <span>BPM</span>
+                    <input
+                        type="text"
+                        value={bpm}
+                        onchange={(e) => updateMeta('TEMPO', e.currentTarget.value)}
+                        spellcheck="false"
+                    />
+                </div>
+                <div class="stat">
+                    <span>KEY</span>
+                    <input
+                        type="text"
+                        value={key}
+                        onchange={(e) => updateMeta('KEY', e.currentTarget.value)}
+                        spellcheck="false"
+                    />
+                </div>
+                <div class="stat">
+                    <span>TIME</span>
+                    <input
+                        type="text"
+                        value={time}
+                        onchange={(e) => updateMeta('TIME', e.currentTarget.value)}
+                        spellcheck="false"
+                    />
+                </div>
+                <div class="stat">
+                    <span>BARS</span>
+                    <input
+                        type="text"
+                        value={bars}
+                        onchange={(e) => updateMeta('BARS', e.currentTarget.value)}
+                        spellcheck="false"
+                    />
+                </div>
+                <div class="stat"><span>NOTES</span> <strong>{notesCount}</strong></div>
+                <div class="stat"><span>CHORDS</span> <strong>{chordsCount}</strong></div>
             </div>
-            <div class="stat">
-                <span>KEY</span>
-                <input
-                    type="text"
-                    value={key}
-                    onchange={(e) => updateMeta('KEY', e.currentTarget.value)}
-                    spellcheck="false"
-                />
-            </div>
-            <div class="stat">
-                <span>TIME</span>
-                <input
-                    type="text"
-                    value={time}
-                    onchange={(e) => updateMeta('TIME', e.currentTarget.value)}
-                    spellcheck="false"
-                />
-            </div>
-            <div class="stat">
-                <span>BARS</span>
-                <input
-                    type="text"
-                    value={bars}
-                    onchange={(e) => updateMeta('BARS', e.currentTarget.value)}
-                    spellcheck="false"
-                />
-            </div>
-            <div class="stat"><span>NOTES</span> <strong>{notesCount}</strong></div>
-            <div class="stat"><span>CHORDS</span> <strong>{chordsCount}</strong></div>
         </div>
 
         <section class="editor-section">
-            <textarea bind:value={payload} spellcheck="false"></textarea>
+            <div class="editor-container">
+                <textarea bind:value={payload} spellcheck="false"></textarea>
+            </div>
         </section>
     </div>
 
@@ -550,32 +529,31 @@ const toggleOptions = () => {
     {/if}
 
     <footer class="footer-controls">
-        <div class="playback-controls">
-            <button class="icon-btn" onclick={togglePlay} aria-label={isPlaying ? "Pause" : "Play"}>
-                {#if isPlaying}
-                <!-- Pause Icon -->
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-                </svg>
-                {:else}
-                <!-- Play Icon -->
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                    <path d="M8 5v14l11-7z" />
-                </svg>
-                {/if}
-            </button>
-            <button class="icon-btn" onclick={stopSequence} aria-label="Stop/Restart">
-                <!-- Stop/Restart Icon (Square) -->
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                    <path d="M6 6h12v12H6z" />
-                </svg>
-            </button>
-            <button class="icon-btn" aria-label="Options" onclick={toggleOptions} class:active={showOptions}>
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" /></svg>
-            </button>
+        <div class="footer-inner">
+            <div class="playback-controls">
+                <button class="icon-btn" onclick={togglePlay} aria-label={isPlaying ? "Pause" : "Play"}>
+                    {#if isPlaying}
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                    </svg>
+                    {:else}
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                    {/if}
+                </button>
+                <button class="icon-btn" onclick={stopSequence} aria-label="Stop/Restart">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                        <path d="M6 6h12v12H6z" />
+                    </svg>
+                </button>
+                <button class="icon-btn" aria-label="Options" onclick={toggleOptions} class:active={showOptions}>
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" /></svg>
+                </button>
+            </div>
+            <div class="sys-msg">>{statusText}</div>
+            <button class="btn-primary" onclick={exportMidi}>MIDI</button>
         </div>
-        <div class="sys-msg">>{statusText}</div>
-        <button class="btn-primary" onclick={exportMidi}>MIDI</button>
     </footer>
 
     {#if showOptions}
@@ -651,7 +629,6 @@ const toggleOptions = () => {
     background-color: #0d0d0d;
     border: 1px solid #333;
     box-shadow: 0 0 30px rgba(0,0,0,0.8);
-    transition: all 0.3s ease;
 }
 
 .window-header {
@@ -660,19 +637,19 @@ const toggleOptions = () => {
     padding: 0.75rem 1rem;
     background: linear-gradient(180deg, #2a2a2a, #1a1a1a);
     border-bottom: 1px solid #000;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
 .window-controls {
     display: flex;
     gap: 0.5rem;
-    flex: 1;
 }
 
 .mac-btn {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    cursor: default;
 }
 
 .mac-btn.close { background-color: #ff5f56; }
@@ -680,8 +657,9 @@ const toggleOptions = () => {
 .mac-btn.maximize { background-color: #27c93f; }
 
 .titles {
-    flex: 2;
+    flex: 1;
     text-align: center;
+    min-width: 150px;
 }
 
 .title {
@@ -692,8 +670,20 @@ const toggleOptions = () => {
     letter-spacing: 1px;
 }
 
+.default-select-wrap {
+    margin-right: 1rem;
+}
+
+.default-select-wrap select {
+    background: #2a2a2a;
+    color: #ddd;
+    border: 1px solid #444;
+    padding: 2px 5px;
+    font-size: 0.8rem;
+    border-radius: 4px;
+}
+
 .subtitle-wrap {
-    flex: 1;
     text-align: right;
 }
 
@@ -704,13 +694,19 @@ const toggleOptions = () => {
     text-transform: uppercase;
 }
 
+.status-bar-outer {
+    width: 100%;
+    background-color: #1a1a24;
+    border-bottom: 1px solid #333;
+}
+
 .status-bar {
     display: flex;
     flex-wrap: wrap;
-    background-color: #1a1a24;
-    border-bottom: 1px solid #333;
     padding: 0.5rem;
     font-size: 0.85rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .stat {
@@ -719,7 +715,7 @@ const toggleOptions = () => {
     flex-direction: column;
     align-items: center;
     padding: 0.25rem;
-    min-width: 60px;
+    min-width: 70px;
     border-right: 1px solid #333;
 }
 .stat:last-child {
@@ -744,11 +740,6 @@ const toggleOptions = () => {
     outline: none;
 }
 
-.stat input:focus {
-    color: #fff;
-    background: rgba(0, 255, 204, 0.1);
-}
-
 .main-content {
     flex: 1;
     display: flex;
@@ -759,9 +750,16 @@ const toggleOptions = () => {
 .editor-section {
     flex: 1;
     display: flex;
+    justify-content: center;
     overflow: hidden;
-    position: relative;
     padding: 1rem;
+    background-color: #080808;
+}
+
+.editor-container {
+    width: 100%;
+    max-width: 900px;
+    height: 100%;
 }
 
 textarea {
@@ -772,239 +770,135 @@ textarea {
     border: 1px solid #222;
     padding: 1rem;
     font-family: inherit;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     resize: none;
     outline: none;
-    line-height: 1.5;
+    line-height: 1.6;
     border-radius: 4px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
 }
+
 textarea:focus {
-    border-color: #00ffcc;
+    border-color: #444;
 }
 
 .footer-controls {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem 1rem;
+    width: 100%;
     background-color: #1a1a1a;
     border-top: 1px solid #333;
 }
 
+.footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
 .playback-controls {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.8rem;
 }
 
 .icon-btn {
     background: #2a2a2a;
-    border: 1px solid #444;
     color: #ccc;
     border-radius: 4px;
-    padding: 0.4rem;
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
-}
-.icon-btn:hover {
-    background: #444;
-    color: #fff;
-}
-
-.default-select-wrap {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 0 1rem;
-}
-
-.default-select-wrap select {
-    background: #000;
-    border: 1px solid #444;
-    color: #00ffcc;
-    border-radius: 4px;
-    padding: 0.2rem 0.4rem;
-    font-family: inherit;
-    font-size: 0.7rem;
-    outline: none;
+    padding: 8px;
     cursor: pointer;
-    min-width: 150px;
-    max-width: 300px;
-    height: 24px;
+    border: 1px solid #444;
 }
 
-.default-select-wrap select:hover {
-    border-color: #00ffcc;
-}
+.icon-btn:hover { background: #3a3a3a; color: #fff; }
+.icon-btn.active { color: #00ffcc; border-color: #ff00ff; background: #ff00ff; color: #000; }
 
 .sys-msg {
-    color: #ff00ff;
-    font-size: 0.85rem;
     flex: 1;
-    text-align: center;
-    padding: 0 1rem;
+    margin: 0 1.5rem;
+    font-size: 0.8rem;
+    color: #ff00ff;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-align: center;
 }
 
 .btn-primary {
-    background-color: transparent;
+    background: transparent;
     border: 1px solid #00ffcc;
     color: #00ffcc;
-    padding: 0.5rem 1rem;
-    font-family: inherit;
     font-weight: bold;
-    cursor: pointer;
-    font-size: 0.8rem;
-    text-transform: uppercase;
     border-radius: 4px;
-    transition: all 0.2s ease;
+    padding: 0.5rem 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
 }
+
 .btn-primary:hover {
-    background-color: #00ffcc;
+    background: #00ffcc;
     color: #000;
 }
 
 /* Options Overlay */
 .options-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(4px);
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.85);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 100;
+    z-index: 1000;
 }
-
 .options-content {
-    background: #1a1a1a;
-    border: 1px solid #333;
+    background: #1a1a24;
+    border: 1px solid #444;
     padding: 2rem;
     border-radius: 8px;
-    width: 80%;
-    max-width: 400px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    width: 90%;
+    max-width: 500px;
 }
+.options-content h3 { margin-top: 0; border-bottom: 1px solid #333; padding-bottom: 0.5rem; color: #ff00ff; }
 
-.options-content h3 {
-    margin-top: 0;
-    color: #ff00ff;
-    letter-spacing: 2px;
-    border-bottom: 1px solid #333;
-    padding-bottom: 0.5rem;
-}
+.option-group { margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.option-group label { font-size: 0.75rem; color: #888; text-transform: uppercase; }
+.option-group select { background: #0d0d12; color: #fff; border: 1px solid #333; padding: 0.5rem; border-radius: 4px; outline: none; }
 
-.option-group {
-    margin-bottom: 1.5rem;
-}
+.toggle-btn { background: #2a2a35; color: #fff; border: 1px solid #444; padding: 0.5rem; border-radius: 4px; cursor: pointer; }
+.toggle-btn.active { background: #00ffcc; color: #000; border-color: #00ffcc; }
 
-.option-group label, .group-label {
-    display: block;
-    font-size: 0.75rem;
-    color: #888;
-    margin-bottom: 0.5rem;
-    text-transform: uppercase;
-}
+.template-grid { display: grid; grid-template-columns: 1fr; gap: 0.5rem; }
+.template-grid button { background: #222; border: 1px solid #333; color: #ccc; padding: 0.4rem; font-size: 0.75rem; border-radius: 4px; text-align: left; }
+.template-grid button:hover { border-color: #00ffcc; color: #fff; }
 
-.option-group select, .toggle-btn {
-    width: 100%;
-    background: #2a2a2a;
-    border: 1px solid #444;
-    color: #00ffcc;
-    padding: 0.5rem;
-    font-family: inherit;
-    border-radius: 4px;
-    outline: none;
-}
+.close-options { width: 100%; padding: 0.75rem; margin-top: 1rem; background: transparent; border: 1px solid #ff00ff; color: #ff00ff; border-radius: 4px; cursor: pointer; }
+.close-options:hover { background: #ff00ff; color: #000; }
 
-.template-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-}
-
-.template-grid button {
-    background: #222;
-    border: 1px solid #333;
-    color: #ccc;
-    padding: 0.4rem;
-    font-family: inherit;
-    font-size: 0.8rem;
-    cursor: pointer;
-    text-align: left;
-}
-
-.template-grid button:hover {
-    background: #333;
-    color: #fff;
-}
-
-.close-options {
-    width: 100%;
-    margin-top: 1rem;
-    background: transparent;
-    border: 1px solid #ff00ff;
-    color: #ff00ff;
-    padding: 0.5rem;
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: bold;
-}
-
-.icon-btn.active {
-    background: #ff00ff;
-    color: #000;
-    border-color: #ff00ff;
-}
-
-.zen .window-header, .zen .status-bar {
+.zen .window-header, .zen .status-bar-outer {
     display: none !important;
 }
 
-@media (min-width: 22.5em) { /* 360px */
-    .title { font-size: 1.1rem; }
-    .status-bar { padding: 0.5rem 1rem; }
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .window-header { justify-content: center; }
+    .window-controls { display: none; }
+    .titles { flex: none; width: 100%; order: -1; margin-bottom: 0.5rem; }
+    .subtitle-wrap { display: none; }
+
+    .status-bar .stat { min-width: 30%; border: none; }
+
+    .footer-inner { flex-direction: column; gap: 1rem; text-align: center; }
+    .sys-msg { margin: 0; }
+
+    .editor-container { max-width: 100%; }
 }
 
-@media (min-width: 37.5em) { /* 600px */
-    .app-container {
-        width: 95vw;
-        height: 95vh;
-        border-radius: 8px;
-    }
-    textarea { font-size: 1rem; }
-    .stat { flex-direction: row; justify-content: space-between; padding: 0.5rem; }
-    .stat span { margin-bottom: 0; margin-right: 0.5rem; }
-}
-
-@media (min-width: 50em) { /* 800px */
-    .app-container {
-        width: 90vw;
-        height: 90vh;
-    }
-    .titles { flex: 3; }
-}
-
-@media (min-width: 56.25em) { /* 900px */
-    .app-container {
-        width: 80vw;
-        height: 85vh;
-    }
-    textarea { font-size: 1.1rem; }
-}
-
-@media (min-width: 64em) { /* 1024px */
-    .app-container {
-        width: 1000px;
-        height: 800px;
-    }
+@media (max-width: 480px) {
+    .status-bar .stat { min-width: 45%; }
 }
 </style>

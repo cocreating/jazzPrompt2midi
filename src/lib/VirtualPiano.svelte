@@ -50,9 +50,9 @@
 <style>
     .piano-container {
         width: 100%;
-        height: 120px;
-        background: #111;
-        border-top: 1px solid #333;
+        height: 130px;
+        background: #0a0a0a;
+        border-top: 1px solid #222;
         position: relative;
         overflow: hidden;
         user-select: none;
@@ -64,18 +64,17 @@
         overflow-x: auto;
         display: flex;
         scrollbar-width: thin;
-        scrollbar-color: #333 #111;
+        scrollbar-color: #333 #000;
     }
 
-    /* Custom scrollbar for chrome/safari */
     .piano-scroll::-webkit-scrollbar {
         height: 4px;
     }
     .piano-scroll::-webkit-scrollbar-track {
-        background: #111;
+        background: #000;
     }
     .piano-scroll::-webkit-scrollbar-thumb {
-        background: #333;
+        background: #222;
         border-radius: 2px;
     }
 
@@ -83,7 +82,7 @@
         display: flex;
         height: 100%;
         margin: 0 auto;
-        padding: 0 10px;
+        padding: 0 5px;
         position: relative;
     }
 
@@ -94,22 +93,22 @@
     }
 
     .key.white {
-        width: 30px;
+        width: 32px;
         height: 100%;
-        background: #eee;
-        border: 1px solid #ccc;
+        background: #fdfdfd;
+        border: 1px solid #ddd;
         border-bottom-left-radius: 4px;
         border-bottom-right-radius: 4px;
         z-index: 1;
     }
 
     .key.black {
-        width: 20px;
+        width: 22px;
         height: 60%;
-        background: #222;
+        background: #111;
         border: 1px solid #000;
-        margin-left: -10px;
-        margin-right: -10px;
+        margin-left: -11px;
+        margin-right: -11px;
         z-index: 2;
         border-bottom-left-radius: 2px;
         border-bottom-right-radius: 2px;
@@ -117,13 +116,13 @@
 
     .key.white.active {
         background: #00ffcc;
-        box-shadow: inset 0 0 10px rgba(0, 255, 204, 0.5), 0 0 20px rgba(0, 255, 204, 0.3);
+        box-shadow: inset 0 0 10px rgba(0, 255, 204, 0.5), 0 0 20px rgba(0, 255, 204, 0.4);
         transform: translateY(2px);
     }
 
     .key.black.active {
         background: #00ccaa;
-        box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+        box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
         transform: translateY(1px);
     }
 
@@ -133,7 +132,22 @@
         left: 50%;
         transform: translateX(-50%);
         font-size: 0.6rem;
-        color: #888;
+        color: #999;
         pointer-events: none;
+        font-family: inherit;
+    }
+
+    @media (max-width: 600px) {
+        .key.white {
+            width: 26px;
+        }
+        .key.black {
+            width: 18px;
+            margin-left: -9px;
+            margin-right: -9px;
+        }
+        .piano-container {
+            height: 110px;
+        }
     }
 </style>
