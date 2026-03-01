@@ -486,6 +486,13 @@ const toggleOptions = () => {
         <div class="titles">
             <h1 class="title">JAZZPROMPT2MIDI</h1>
         </div>
+        <div class="default-select-wrap">
+            <select bind:value={selectedDefault} aria-label="Select default payload">
+                {#each defaultItems as item}
+                    <option value={item.id}>{item.label}</option>
+                {/each}
+            </select>
+        </div>
         <div class="subtitle-wrap">
             <h2 class="subtitle">THE MOST IMPORTANT</h2>
         </div>
@@ -566,13 +573,6 @@ const toggleOptions = () => {
             <button class="icon-btn" aria-label="Options" onclick={toggleOptions} class:active={showOptions}>
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" /></svg>
             </button>
-            <div class="default-select-wrap">
-                <select bind:value={selectedDefault} aria-label="Select default payload">
-                    {#each defaultItems as item}
-                        <option value={item.id}>{item.label}</option>
-                    {/each}
-                </select>
-            </div>
         </div>
         <div class="sys-msg">>{statusText}</div>
         <button class="btn-primary" onclick={exportMidi}>MIDI</button>
@@ -814,22 +814,25 @@ textarea:focus {
 }
 
 .default-select-wrap {
-    margin-left: 0.5rem;
+    flex: 1;
     display: flex;
+    justify-content: flex-end;
     align-items: center;
+    padding: 0 1rem;
 }
 
 .default-select-wrap select {
-    background: #2a2a2a;
+    background: #000;
     border: 1px solid #444;
     color: #00ffcc;
     border-radius: 4px;
-    padding: 0.3rem 0.5rem;
+    padding: 0.2rem 0.4rem;
     font-family: inherit;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     outline: none;
     cursor: pointer;
-    max-width: 150px;
+    max-width: 180px;
+    height: 24px;
 }
 
 .default-select-wrap select:hover {
