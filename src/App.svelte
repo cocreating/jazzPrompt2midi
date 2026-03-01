@@ -3,21 +3,33 @@ import { Chord } from 'tonal';
 import * as Tone from 'tone';
 import VirtualPiano from './lib/VirtualPiano.svelte';
 
-// Load default payloads from assets folder
-const rawDefaults = import.meta.glob('./assets/defaults/*.txt', { query: '?raw', eager: true });
+// Load default payloads from assets folder dynamically
+// Vite's import.meta.glob with { eager: true, as: 'raw' } is the most robust way to get file contents as strings
+const rawDefaults = import.meta.glob('./assets/defaults/*.txt', { eager: true, as: 'raw' });
+
 const defaultsMap = Object.entries(rawDefaults).reduce((acc, [path, content]) => {
     const filename = path.split('/').pop();
-    acc[filename] = content.default;
+    // Use ? raw to get the string, then find Title
+    const fileContent = content;
+    const titleMatch = fileContent.match(/TITLE:\s*(.+)/i);
+    const title = titleMatch ? titleMatch[1].trim() : filename;
+
+    acc[filename] = {
+        id: filename,
+        content: fileContent,
+        label: title
+    };
     return acc;
 }, {});
-const defaultFilenames = Object.keys(defaultsMap);
 
-let selectedDefault = $state(defaultFilenames[0] || '');
-let payload = $state(defaultsMap[selectedDefault] || '');
+const defaultItems = Object.values(defaultsMap).sort((a, b) => a.label.localeCompare(b.label));
+
+let selectedDefault = $state(defaultItems[0]?.id || '');
+let payload = $state(defaultsMap[selectedDefault]?.content || '');
 
 $effect(() => {
     if (selectedDefault && defaultsMap[selectedDefault]) {
-        payload = defaultsMap[selectedDefault];
+        payload = defaultsMap[selectedDefault].content;
     }
 });
 
@@ -556,8 +568,8 @@ const toggleOptions = () => {
             </button>
             <div class="default-select-wrap">
                 <select bind:value={selectedDefault} aria-label="Select default payload">
-                    {#each defaultFilenames as filename}
-                        <option value={filename}>{filename}</option>
+                    {#each defaultItems as item}
+                        <option value={item.id}>{item.label}</option>
                     {/each}
                 </select>
             </div>
