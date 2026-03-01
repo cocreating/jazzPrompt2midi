@@ -23,8 +23,8 @@ Format: `bar [N]: [ChordName] ([Beats]) ...`
 
 ### Melody Syntax
 Format: `bar [N] beat [POS]: [NoteName][Octave] duration [D] velocity [V]`
-- **NoteName**: A-G with `#` or `b`.
-- **Octave**: Middle C is `C4`.
+- **NoteName**: A-G with `#` or `b`. Use **`REST`** for silence (e.g., `bar 1 beat 3: REST duration 1.0`).
+- **Octave**: Middle C is `C4`. Not required for `REST`.
 - **Position**: `1` is the start of the bar. `2.5` is the eighth-note upbeat of beat 2.
 - **Duration**: Expressed in beats (e.g., `duration 1` is a quarter note, `duration 0.5` is an eighth note).
 - **Velocity**: (Optional) MIDI Velocity from `0` to `127`. Defaults to `80` if omitted.

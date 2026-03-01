@@ -93,7 +93,7 @@ let chordsMatches = $derived([...chordsText.matchAll(/bar (\d+):\s*(.+)/gi)]
     }));
 
 let chordsCount = $derived(chordsMatches.reduce((acc, c) => acc + c.chords.length, 0));
-let notesMatches = $derived([...melodyText.matchAll(/bar (\d+) beat ([\d.]+):\s*([A-G][b#]?\d)\s*duration\s*([\d.]+)(?:\s+velocity\s+(\d+))?/gi)]);
+let notesMatches = $derived([...melodyText.matchAll(/bar (\d+) beat ([\d.]+):\s*([A-G][b#]?\d|REST)\s*duration\s*([\d.]+)(?:\s+velocity\s+(\d+))?/gi)]);
 let notesCount = $derived(notesMatches.length);
 
 let isPlaying = $state(false);
@@ -176,13 +176,15 @@ const setupParts = () => {
     });
 
     melodyPart = new Tone.Part((t, e) => {
-        sampler.triggerAttackRelease(e.note, e.dur, t, e.vel);
-        Tone.Draw.schedule(() => {
-            addActiveNote(e.note);
-        }, t);
-        Tone.Draw.schedule(() => {
-            removeActiveNote(e.note);
-        }, t + e.dur);
+        if (e.note.toUpperCase() !== 'REST') {
+            sampler.triggerAttackRelease(e.note, e.dur, t, e.vel);
+            Tone.Draw.schedule(() => {
+                addActiveNote(e.note);
+            }, t);
+            Tone.Draw.schedule(() => {
+                removeActiveNote(e.note);
+            }, t + e.dur);
+        }
     }, melEvents).start(0);
 
     const chdEvents = [];
@@ -398,6 +400,7 @@ const exportMidi = () => {
 
     let mEvents = [];
     notesMatches.forEach(m => {
+        if (m[3].toUpperCase() === 'REST') return;
         const stBeat = (parseInt(m[1]) - firstBar) * bpb + (parseFloat(m[2]) - 1);
         const stTick = Math.max(0, Math.round(stBeat * 480));
         const endTick = Math.max(stTick + 1, Math.round((stBeat + parseFloat(m[4])) * 480));
