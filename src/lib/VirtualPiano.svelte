@@ -1,8 +1,8 @@
 <script>
     import { onMount } from 'svelte';
 
-    /** @type {{ activeNotes: Set<string> }} */
-    let { activeNotes } = $props();
+    /** @type {{ activeChordNotes: Set<number>, activeMelodyNotes: Set<number> }} */
+    let { activeChordNotes, activeMelodyNotes } = $props();
 
     const OCTAVES = 4;
     const START_OCTAVE = 2;
@@ -24,8 +24,13 @@
         return allKeys;
     });
 
-    function isNoteActive(midi) {
-        return activeNotes.has(midi);
+    function getNoteState(midi) {
+        const isChord = activeChordNotes.has(midi);
+        const isMelody = activeMelodyNotes.has(midi);
+        if (isChord && isMelody) return 'collision';
+        if (isMelody) return 'harmony';
+        if (isChord) return 'chord';
+        return '';
     }
 </script>
 
@@ -33,9 +38,12 @@
     <div class="piano-scroll">
         <div class="keys">
             {#each keys as key}
+                {@const state = getNoteState(key.midi)}
                 <div
                     class="key {key.isBlack ? 'black' : 'white'}"
-                    class:active={isNoteActive(key.midi)}
+                    class:chord={state === 'chord'}
+                    class:harmony={state === 'harmony'}
+                    class:collision={state === 'collision'}
                     data-note={key.name}
                 >
                     {#if !key.isBlack && key.name.startsWith('C')}
@@ -114,16 +122,44 @@
         border-bottom-right-radius: 2px;
     }
 
-    .key.white.active {
+    /* Chord Active (Cyan) */
+    .key.white.chord {
         background: #00ffcc;
         box-shadow: inset 0 0 10px rgba(0, 255, 204, 0.5), 0 0 20px rgba(0, 255, 204, 0.4);
         transform: translateY(2px);
     }
-
-    .key.black.active {
+    .key.black.chord {
         background: #00ccaa;
         box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
         transform: translateY(1px);
+    }
+
+    /* Harmony Active (Red) */
+    .key.white.harmony {
+        background: #F44336;
+        box-shadow: inset 0 0 10px rgba(244, 67, 54, 0.5), 0 0 20px rgba(244, 67, 54, 0.4);
+        transform: translateY(2px);
+        border-color: #d32f2f;
+    }
+    .key.black.harmony {
+        background: #ef5350;
+        box-shadow: 0 0 15px rgba(244, 67, 54, 0.5);
+        transform: translateY(1px);
+        border-color: #b71c1c;
+    }
+
+    /* Collision Active (Yellow) */
+    .key.white.collision {
+        background: #FFEB3B;
+        box-shadow: inset 0 0 10px rgba(255, 235, 59, 0.5), 0 0 20px rgba(255, 235, 59, 0.4);
+        transform: translateY(2px);
+        border-color: #fbc02d;
+    }
+    .key.black.collision {
+        background: #fff176;
+        box-shadow: 0 0 15px rgba(255, 235, 59, 0.5);
+        transform: translateY(1px);
+        border-color: #f9a825;
     }
 
     .label {

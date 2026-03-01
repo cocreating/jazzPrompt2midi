@@ -105,26 +105,40 @@ let chordsPart = null;
 let stopEventId = null;
 let showOptions = $state(false);
 
-let activeNotes = $state(new Set());
+let activeChordNotes = $state(new Set());
+let activeMelodyNotes = $state(new Set());
 
 const noteToMidi = (note) => {
     return Tone.Frequency(note).toMidi();
 };
 
-const addActiveNote = (note) => {
+const addChordNote = (note) => {
     const midi = typeof note === 'string' ? noteToMidi(note) : note;
-    activeNotes.add(midi);
-    activeNotes = new Set(activeNotes);
+    activeChordNotes.add(midi);
+    activeChordNotes = new Set(activeChordNotes);
 };
 
-const removeActiveNote = (note) => {
+const removeChordNote = (note) => {
     const midi = typeof note === 'string' ? noteToMidi(note) : note;
-    activeNotes.delete(midi);
-    activeNotes = new Set(activeNotes);
+    activeChordNotes.delete(midi);
+    activeChordNotes = new Set(activeChordNotes);
+};
+
+const addMelodyNote = (note) => {
+    const midi = typeof note === 'string' ? noteToMidi(note) : note;
+    activeMelodyNotes.add(midi);
+    activeMelodyNotes = new Set(activeMelodyNotes);
+};
+
+const removeMelodyNote = (note) => {
+    const midi = typeof note === 'string' ? noteToMidi(note) : note;
+    activeMelodyNotes.delete(midi);
+    activeMelodyNotes = new Set(activeMelodyNotes);
 };
 
 const clearActiveNotes = () => {
-    activeNotes = new Set();
+    activeChordNotes = new Set();
+    activeMelodyNotes = new Set();
 };
 
 let instrument = $state('piano');
@@ -179,10 +193,10 @@ const setupParts = () => {
         if (e.note.toUpperCase() !== 'REST') {
             sampler.triggerAttackRelease(e.note, e.dur, t, e.vel);
             Tone.Draw.schedule(() => {
-                addActiveNote(e.note);
+                addMelodyNote(e.note);
             }, t);
             Tone.Draw.schedule(() => {
-                removeActiveNote(e.note);
+                removeMelodyNote(e.note);
             }, t + e.dur);
         }
     }, melEvents).start(0);
@@ -203,10 +217,10 @@ const setupParts = () => {
     chordsPart = new Tone.Part((t, e) => {
         sampler.triggerAttackRelease(e.notes, e.dur, t, e.vel);
         Tone.Draw.schedule(() => {
-            e.notes.forEach(n => addActiveNote(n));
+            e.notes.forEach(n => addChordNote(n));
         }, t);
         Tone.Draw.schedule(() => {
-            e.notes.forEach(n => removeActiveNote(n));
+            e.notes.forEach(n => removeChordNote(n));
         }, t + e.dur);
     }, chdEvents).start(0);
 
@@ -543,7 +557,7 @@ const toggleOptions = () => {
     </div>
 
     {#if !zenMode}
-        <VirtualPiano {activeNotes} />
+        <VirtualPiano {activeChordNotes} {activeMelodyNotes} />
     {/if}
 
     <footer class="footer-controls">
