@@ -1,0 +1,91 @@
+TITLE: Stillness Between Heartbeats
+TEMPO: 54
+KEY: Eb
+TIME: 4/4
+SWING: none
+BARS: 16
+
+CHORDS:
+bar 1: Ebmaj9(4)
+bar 2: Gm7(2) Abmaj7(2)
+bar 3: Fm9(4)
+bar 4: Bb13sus(2) Bb7b9(2)
+bar 5: Ebmaj9(4)
+bar 6: Cm9(4)
+bar 7: Fm9(2) Abm6(2)
+bar 8: Eb/G(2) Bb7alt(2)
+bar 9: Ebmaj9(4)
+bar 10: Dbmaj7(4)
+bar 11: Cm7(2) F7alt(2)
+bar 12: Bb13(4)
+bar 13: Gm7(2) C7b9(2)
+bar 14: Fm9(4)
+bar 15: Bb7sus(2) Bb7b9(2)
+bar 16: Ebmaj9(4)
+
+MELODY:
+bar 1 beat 1: G4 duration 2 velocity 58
+bar 1 beat 3: REST duration 2
+
+bar 2 beat 1: Bb4 duration 1 velocity 60
+bar 2 beat 2: C5 duration 1 velocity 62
+bar 2 beat 3: REST duration 1
+bar 2 beat 4: Ab4 duration 1 velocity 58
+
+bar 3 beat 1: G4 duration 1.5 velocity 56
+bar 3 beat 2.5: F4 duration 1 velocity 54
+bar 3 beat 3.5: REST duration 1.5
+
+bar 4 beat 1: Ab4 duration 1 velocity 60
+bar 4 beat 2: F4 duration 1 velocity 57
+bar 4 beat 3: D4 duration 1 velocity 55
+bar 4 beat 4: REST duration 1
+
+bar 5 beat 1: G4 duration 3 velocity 64
+bar 5 beat 4: REST duration 1
+
+bar 6 beat 1: Eb4 duration 1 velocity 52
+bar 6 beat 2: G4 duration 1 velocity 54
+bar 6 beat 3: Bb4 duration 1 velocity 56
+bar 6 beat 4: REST duration 1
+
+bar 7 beat 1: Ab4 duration 1 velocity 58
+bar 7 beat 2: F4 duration 1 velocity 55
+bar 7 beat 3: E4 duration 1 velocity 53
+bar 7 beat 4: REST duration 1
+
+bar 8 beat 1: G4 duration 2 velocity 60
+bar 8 beat 3: F4 duration 1 velocity 57
+bar 8 beat 4: REST duration 1
+
+bar 9 beat 1: Bb4 duration 1 velocity 62
+bar 9 beat 2: G4 duration 1 velocity 60
+bar 9 beat 3: Eb4 duration 2 velocity 58
+
+bar 10 beat 1: F4 duration 2 velocity 55
+bar 10 beat 3: Ab4 duration 1 velocity 57
+bar 10 beat 4: REST duration 1
+
+bar 11 beat 1: G4 duration 1 velocity 59
+bar 11 beat 2: Eb4 duration 1 velocity 56
+bar 11 beat 3: D4 duration 1 velocity 54
+bar 11 beat 4: REST duration 1
+
+bar 12 beat 1: F4 duration 2 velocity 60
+bar 12 beat 3: D4 duration 1 velocity 57
+bar 12 beat 4: REST duration 1
+
+bar 13 beat 1: Bb4 duration 1 velocity 62
+bar 13 beat 2: G4 duration 1 velocity 60
+bar 13 beat 3: E4 duration 1 velocity 56
+bar 13 beat 4: REST duration 1
+
+bar 14 beat 1: F4 duration 3 velocity 58
+bar 14 beat 4: REST duration 1
+
+bar 15 beat 1: Ab4 duration 1 velocity 60
+bar 15 beat 2: F4 duration 1 velocity 57
+bar 15 beat 3: D4 duration 1 velocity 55
+bar 15 beat 4: REST duration 1
+
+bar 16 beat 1: G4 duration 4 velocity 66

@@ -1,0 +1,120 @@
+TITLE: Bird’s Corner Logic
+TEMPO: 228
+KEY: Bb
+TIME: 4/4
+SWING: heavy
+BARS: 16
+
+CHORDS:
+bar 1: Cm7(2) F7b9(2)
+bar 2: Bb6(2) G7b9(2)
+bar 3: Cm7(2) F7#9(2)
+bar 4: Bb6(4)
+bar 5: Eb7(2) Edim7(2)
+bar 6: Bb6(2) G7b9(2)
+bar 7: Cm7(2) F7b9(2)
+bar 8: Bb6(2) F7#11(2)
+bar 9: Bb6(2) D7b9(2)
+bar 10: Gm7(2) C7b9(2)
+bar 11: Cm7(2) F7b9(2)
+bar 12: Bb6(2) G7b9(2)
+bar 13: Cm7(2) F7#9(2)
+bar 14: Bb6(2) D7b9(2)
+bar 15: Gm7(2) C7b9(2)
+bar 16: Cm7(2) F7b9(2)
+
+MELODY:
+bar 1 beat 1.0: Eb4 duration 0.5 velocity 82
+bar 1 beat 1.5: G4 duration 0.5 velocity 88
+bar 1 beat 2.0: Bb4 duration 0.5 velocity 92
+bar 1 beat 2.5: A4 duration 0.5 velocity 96
+bar 1 beat 3.0: Ab4 duration 0.5 velocity 94
+bar 1 beat 3.5: F4 duration 0.5 velocity 86
+
+bar 2 beat 1.0: D4 duration 0.5 velocity 84
+bar 2 beat 1.5: F4 duration 0.5 velocity 90
+bar 2 beat 2.0: Bb4 duration 1.0 velocity 98
+bar 2 beat 3.5: A4 duration 0.5 velocity 88
+
+bar 3 beat 1.0: G4 duration 0.5 velocity 84
+bar 3 beat 1.5: Bb4 duration 0.5 velocity 90
+bar 3 beat 2.0: D5 duration 0.5 velocity 96
+bar 3 beat 2.5: Db5 duration 0.5 velocity 102
+bar 3 beat 3.0: C5 duration 0.5 velocity 94
+bar 3 beat 3.5: A4 duration 0.5 velocity 88
+
+bar 4 beat 1.0: Bb4 duration 1.5 velocity 100
+bar 4 beat 2.5: F4 duration 0.5 velocity 82
+bar 4 beat 3.0: D4 duration 1.0 velocity 78
+
+bar 5 beat 1.0: G4 duration 0.5 velocity 86
+bar 5 beat 1.5: Bb4 duration 0.5 velocity 92
+bar 5 beat 2.0: Db5 duration 0.5 velocity 98
+bar 5 beat 2.5: C5 duration 0.5 velocity 90
+bar 5 beat 3.0: B4 duration 0.5 velocity 96
+bar 5 beat 3.5: G4 duration 0.5 velocity 84
+
+bar 6 beat 1.0: F4 duration 0.5 velocity 82
+bar 6 beat 1.5: D4 duration 0.5 velocity 88
+bar 6 beat 2.0: B3 duration 0.5 velocity 94
+bar 6 beat 2.5: Db4 duration 0.5 velocity 100
+bar 6 beat 3.0: Bb3 duration 1.0 velocity 90
+
+bar 7 beat 1.0: Eb4 duration 0.5 velocity 84
+bar 7 beat 1.5: G4 duration 0.5 velocity 90
+bar 7 beat 2.0: Bb4 duration 0.5 velocity 96
+bar 7 beat 2.5: A4 duration 0.5 velocity 102
+bar 7 beat 3.0: Ab4 duration 0.5 velocity 94
+bar 7 beat 3.5: F4 duration 0.5 velocity 86
+
+bar 8 beat 1.0: D4 duration 0.5 velocity 84
+bar 8 beat 1.5: Bb3 duration 0.5 velocity 88
+bar 8 beat 2.0: A3 duration 0.5 velocity 92
+bar 8 beat 2.5: C4 duration 0.5 velocity 98
+bar 8 beat 3.0: F4 duration 1.0 velocity 104
+
+bar 9 beat 1.0: Bb4 duration 0.5 velocity 90
+bar 9 beat 1.5: D5 duration 0.5 velocity 96
+bar 9 beat 2.0: F5 duration 1.0 velocity 104
+bar 9 beat 3.5: E5 duration 0.5 velocity 92
+
+bar 10 beat 1.0: D5 duration 0.5 velocity 88
+bar 10 beat 1.5: Bb4 duration 0.5 velocity 90
+bar 10 beat 2.0: G4 duration 0.5 velocity 94
+bar 10 beat 2.5: E4 duration 0.5 velocity 100
+bar 10 beat 3.0: C5 duration 1.0 velocity 102
+
+bar 11 beat 1.0: Eb5 duration 0.5 velocity 92
+bar 11 beat 1.5: C5 duration 0.5 velocity 88
+bar 11 beat 2.0: A4 duration 0.5 velocity 96
+bar 11 beat 2.5: Ab4 duration 0.5 velocity 102
+bar 11 beat 3.0: F4 duration 1.0 velocity 90
+
+bar 12 beat 1.0: D4 duration 0.5 velocity 84
+bar 12 beat 1.5: F4 duration 0.5 velocity 90
+bar 12 beat 2.0: Bb4 duration 1.0 velocity 100
+bar 12 beat 3.5: A4 duration 0.5 velocity 88
+
+bar 13 beat 1.0: G4 duration 0.5 velocity 86
+bar 13 beat 1.5: Bb4 duration 0.5 velocity 92
+bar 13 beat 2.0: D5 duration 0.5 velocity 100
+bar 13 beat 2.5: Db5 duration 0.5 velocity 106
+bar 13 beat 3.0: C5 duration 1.0 velocity 96
+
+bar 14 beat 1.0: Bb4 duration 0.5 velocity 90
+bar 14 beat 1.5: F4 duration 0.5 velocity 84
+bar 14 beat 2.0: D4 duration 0.5 velocity 88
+bar 14 beat 2.5: C#4 duration 0.5 velocity 98
+bar 14 beat 3.0: D4 duration 1.0 velocity 92
+
+bar 15 beat 1.0: G4 duration 0.5 velocity 88
+bar 15 beat 1.5: Bb4 duration 0.5 velocity 94
+bar 15 beat 2.0: D5 duration 0.5 velocity 102
+bar 15 beat 2.5: C5 duration 0.5 velocity 96
+bar 15 beat 3.0: A4 duration 1.0 velocity 90
+
+bar 16 beat 1.0: Ab4 duration 0.5 velocity 94
+bar 16 beat 1.5: F4 duration 0.5 velocity 88
+bar 16 beat 2.0: Eb4 duration 0.5 velocity 84
+bar 16 beat 2.5: D4 duration 0.5 velocity 90
+bar 16 beat 3.0: C4 duration 1.0 velocity 96

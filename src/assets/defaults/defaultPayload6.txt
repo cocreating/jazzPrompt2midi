@@ -1,0 +1,252 @@
+TITLE: Margins of the Real Book
+TEMPO: 132
+KEY: D minor
+TIME: 4/4
+SWING: medium
+BARS: 48
+
+CHORDS:
+bar 1: Dm9(4)
+bar 2: Em7b5(2) A7alt(2)
+bar 3: Dm9(3) D7#11(1)
+bar 4: Gm9(2) C13(2)
+bar 5: Fmaj9(3) F#dim7(1)
+bar 6: Em7(2) A7b9(2)
+bar 7: Dm9(2) G7alt(2)
+bar 8: Cmaj9#11(2) B7alt(2)
+bar 9: Em9(2) A13(2)
+bar 10: Dmaj9(2) C#7alt(2)
+bar 11: F#maj9(2) F7alt(2)
+bar 12: Bbmaj9(2) A7alt(2)
+
+bar 13: Dm9(2) Dm11(2)
+bar 14: Gm9(2) C7#9(2)
+bar 15: Fmaj9(2) B7alt(2)
+bar 16: Em7b5(2) A7alt(2)
+bar 17: Dm9(3) Ab7#11(1)
+bar 18: Gm9(1) C13(1) Fmaj9(2)
+bar 19: Bbm9(2) Eb13(2)
+bar 20: Am7b5(2) D7alt(2)
+bar 21: Gm9(2) C7alt(2)
+bar 22: Fmaj9(2) E7alt(2)
+bar 23: Am7(2) D7alt(2)
+bar 24: Gm9(2) A7alt(2)
+
+bar 25: Dm9(4)
+bar 26: Dbmaj7#11(2) Cmaj9#11(2)
+bar 27: Bm7b5(2) E7alt(2)
+bar 28: Am9(2) D13(2)
+bar 29: Gmaj9(2) C#7alt(2)
+bar 30: F#maj9(2) B7alt(2)
+bar 31: Em9(2) A7sus(2)
+bar 32: Dmaj9(2) D7alt(2)
+bar 33: Gm9(2) C7sus(2)
+bar 34: Fmaj9(2) Ab7#11(2)
+bar 35: Gm9(2) A7alt(2)
+bar 36: Dm9(4)
+
+bar 37: Dm9(2) F7alt(2)
+bar 38: Bbmaj9(2) Eb13(2)
+bar 39: Am7b5(2) D7alt(2)
+bar 40: Gm9(2) C7alt(2)
+bar 41: Fmaj9(2) E7alt(2)
+bar 42: Am7(2) Ab7#11(2)
+bar 43: Gm9(2) C13(2)
+bar 44: Fmaj9(2) B7alt(2)
+bar 45: Em7b5(2) A7alt(2)
+bar 46: Dm9(2) G7alt(2)
+bar 47: Cmaj9#11(2) A7alt(2)
+bar 48: Dm6/9(4)
+
+MELODY:
+bar 1 beat 1.5: F4 duration 0.5
+bar 1 beat 2.25: A4 duration 0.75
+bar 1 beat 3.25: D5 duration 0.75
+
+bar 2 beat 1.75: C#5 duration 0.5
+bar 2 beat 2.5: C5 duration 0.5
+bar 2 beat 3.25: B4 duration 0.75
+
+bar 3 beat 1.25: A4 duration 0.5
+bar 3 beat 2.0: F4 duration 0.75
+bar 3 beat 3.25: E4 duration 0.5
+
+bar 4 beat 1.5: G4 duration 0.5
+bar 4 beat 2.25: Bb4 duration 0.75
+bar 4 beat 3.5: A4 duration 0.5
+
+bar 5 beat 1.25: C5 duration 0.75
+bar 5 beat 2.5: A4 duration 0.5
+bar 5 beat 3.25: F4 duration 0.75
+
+bar 6 beat 1.75: G#4 duration 0.5
+bar 6 beat 2.5: A4 duration 0.5
+bar 6 beat 3.25: C5 duration 0.75
+
+bar 7 beat 1.5: D5 duration 0.5
+bar 7 beat 2.25: C5 duration 0.5
+bar 7 beat 3.0: Bb4 duration 0.75
+
+bar 8 beat 1.25: G4 duration 0.75
+bar 8 beat 2.5: E4 duration 0.5
+bar 8 beat 3.25: D#4 duration 0.5
+
+bar 9 beat 1.75: E4 duration 0.5
+bar 9 beat 2.5: G4 duration 0.5
+bar 9 beat 3.25: B4 duration 0.75
+
+bar 10 beat 1.25: A4 duration 0.5
+bar 10 beat 2.0: F#4 duration 0.75
+bar 10 beat 3.5: E#4 duration 0.5
+
+bar 11 beat 1.5: F#4 duration 0.5
+bar 11 beat 2.25: A#4 duration 0.75
+bar 11 beat 3.5: A4 duration 0.5
+
+bar 12 beat 1.25: D5 duration 0.5
+bar 12 beat 2.0: C5 duration 0.5
+bar 12 beat 2.75: A4 duration 0.75
+
+bar 13 beat 1.75: F4 duration 0.5
+bar 13 beat 2.5: A4 duration 0.5
+bar 13 beat 3.25: D5 duration 0.75
+
+bar 14 beat 1.5: Bb4 duration 0.5
+bar 14 beat 2.25: A4 duration 0.5
+bar 14 beat 3.0: G4 duration 0.75
+
+bar 15 beat 1.25: F4 duration 0.5
+bar 15 beat 2.0: A4 duration 0.5
+bar 15 beat 2.75: G#4 duration 0.75
+
+bar 16 beat 1.75: G4 duration 0.5
+bar 16 beat 2.5: F4 duration 0.5
+bar 16 beat 3.25: E4 duration 0.75
+
+bar 17 beat 1.25: D5 duration 0.75
+bar 17 beat 2.5: C5 duration 0.5
+bar 17 beat 3.25: B4 duration 0.5
+
+bar 18 beat 1.5: Bb4 duration 0.5
+bar 18 beat 2.25: A4 duration 0.5
+bar 18 beat 3.0: C5 duration 1.0
+
+bar 19 beat 1.75: Db5 duration 0.5
+bar 19 beat 2.5: C5 duration 0.5
+bar 19 beat 3.25: Bb4 duration 0.75
+
+bar 20 beat 1.25: A4 duration 0.5
+bar 20 beat 2.0: F4 duration 0.5
+bar 20 beat 2.75: E4 duration 0.75
+
+bar 21 beat 1.5: G4 duration 0.5
+bar 21 beat 2.25: Bb4 duration 0.75
+bar 21 beat 3.5: A4 duration 0.5
+
+bar 22 beat 1.25: C5 duration 0.75
+bar 22 beat 2.5: A4 duration 0.5
+bar 22 beat 3.25: G#4 duration 0.5
+
+bar 23 beat 1.75: A4 duration 0.5
+bar 23 beat 2.5: C5 duration 0.5
+bar 23 beat 3.25: E5 duration 0.75
+
+bar 24 beat 1.25: D5 duration 0.5
+bar 24 beat 2.0: Bb4 duration 0.75
+bar 24 beat 3.5: A4 duration 0.5
+
+bar 25 beat 1.5: F4 duration 0.5
+bar 25 beat 2.25: A4 duration 0.75
+bar 25 beat 3.25: C5 duration 0.75
+
+bar 26 beat 1.25: Eb5 duration 0.5
+bar 26 beat 2.0: D5 duration 0.5
+bar 26 beat 2.75: C5 duration 0.75
+
+bar 27 beat 1.75: B4 duration 0.5
+bar 27 beat 2.5: A4 duration 0.5
+bar 27 beat 3.25: G#4 duration 0.75
+
+bar 28 beat 1.25: A4 duration 0.75
+bar 28 beat 2.5: C5 duration 0.5
+bar 28 beat 3.25: D5 duration 0.5
+
+bar 29 beat 1.5: B4 duration 0.5
+bar 29 beat 2.25: D5 duration 0.5
+bar 29 beat 3.0: C#5 duration 0.75
+
+bar 30 beat 1.75: A#4 duration 0.5
+bar 30 beat 2.5: B4 duration 0.5
+bar 30 beat 3.25: D#5 duration 0.75
+
+bar 31 beat 1.25: E5 duration 0.5
+bar 31 beat 2.0: B4 duration 0.75
+bar 31 beat 3.5: A4 duration 0.5
+
+bar 32 beat 1.5: F#4 duration 0.5
+bar 32 beat 2.25: A4 duration 0.75
+bar 32 beat 3.25: C5 duration 0.75
+
+bar 33 beat 1.25: Bb4 duration 0.5
+bar 33 beat 2.0: A4 duration 0.5
+bar 33 beat 2.75: G4 duration 0.75
+
+bar 34 beat 1.75: A4 duration 0.5
+bar 34 beat 2.5: C5 duration 0.5
+bar 34 beat 3.25: Db5 duration 0.75
+
+bar 35 beat 1.25: Bb4 duration 0.75
+bar 35 beat 2.5: A4 duration 0.5
+bar 35 beat 3.25: F4 duration 0.5
+
+bar 36 beat 1.75: E4 duration 0.5
+bar 36 beat 2.5: F4 duration 0.5
+bar 36 beat 3.25: D4 duration 0.75
+
+bar 37 beat 1.5: F4 duration 0.5
+bar 37 beat 2.25: A4 duration 0.5
+bar 37 beat 3.0: Ab4 duration 0.75
+
+bar 38 beat 1.25: F5 duration 0.5
+bar 38 beat 2.0: D5 duration 0.5
+bar 38 beat 2.75: C5 duration 0.75
+
+bar 39 beat 1.75: A4 duration 0.5
+bar 39 beat 2.5: F4 duration 0.5
+bar 39 beat 3.25: E4 duration 0.75
+
+bar 40 beat 1.25: G4 duration 0.75
+bar 40 beat 2.5: Bb4 duration 0.5
+bar 40 beat 3.25: A4 duration 0.5
+
+bar 41 beat 1.5: C5 duration 0.5
+bar 41 beat 2.25: A4 duration 0.75
+bar 41 beat 3.25: G#4 duration 0.75
+
+bar 42 beat 1.25: A4 duration 0.5
+bar 42 beat 2.0: C5 duration 0.5
+bar 42 beat 2.75: B4 duration 0.75
+
+bar 43 beat 1.75: Bb4 duration 0.5
+bar 43 beat 2.5: A4 duration 0.5
+bar 43 beat 3.25: C5 duration 0.75
+
+bar 44 beat 1.25: D5 duration 0.5
+bar 44 beat 2.0: A4 duration 0.75
+bar 44 beat 3.5: G#4 duration 0.5
+
+bar 45 beat 1.5: G4 duration 0.5
+bar 45 beat 2.25: F4 duration 0.5
+bar 45 beat 3.0: E4 duration 0.75
+
+bar 46 beat 1.25: D5 duration 0.75
+bar 46 beat 2.5: C5 duration 0.5
+bar 46 beat 3.25: B4 duration 0.5
+
+bar 47 beat 1.75: G4 duration 0.5
+bar 47 beat 2.5: A4 duration 0.5
+bar 47 beat 3.25: F4 duration 0.75
+
+bar 48 beat 1.5: E4 duration 0.5
+bar 48 beat 2.25: F4 duration 0.75
+bar 48 beat 3.25: D4 duration 0.75

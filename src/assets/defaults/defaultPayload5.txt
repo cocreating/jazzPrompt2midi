@@ -1,0 +1,184 @@
+TITLE: Glass Lanterns
+TEMPO: 132
+KEY: F major
+TIME: 4/4
+SWING: medium
+BARS: 32
+
+CHORDS:
+bar 1: Fmaj9(2) Gm9(2)
+bar 2: Am9(2) D7(#11)(2)
+bar 3: Gm9(2) C13(2)
+bar 4: Fmaj9(4, velocity 92)
+bar 5: Bbmaj9(2) Bbm9(2)
+bar 6: Am9(2) D7(b9)(2)
+bar 7: Gm9(2) C13(2)
+bar 8: F6/9(4, velocity 96)
+bar 9: A7(#11)(2) Dm9(2)
+bar 10: G7(alt)(2) Gm9(2)
+bar 11: F/A(2) Bb13(2)
+bar 12: Am9(2) D7(b9)(2)
+bar 13: Gm9(2) C13(2)
+bar 14: Fmaj9(2) A7(#5)(2)
+bar 15: Dm9(2) G7(alt)(2)
+bar 16: Gm9(2) C7(b9)(2)
+bar 17: Bbmaj9(4)
+bar 18: Bbm9(2) Eb13(2)
+bar 19: Am9(2) D7(b9)(2)
+bar 20: Gm9(2) C13(2)
+bar 21: Fmaj9(2) D7(#11)(2)
+bar 22: Gm9(2) C7(b9)(2)
+bar 23: Am9(2) D7(b9)(2)
+bar 24: Gm9(2) C13(2)
+bar 25: Fmaj9(2) Gm9(2)
+bar 26: Am9(2) D7(#11)(2)
+bar 27: Gm9(2) C13(2)
+bar 28: F6/9(4, velocity 98)
+bar 29: Bbmaj9(2) Bbm9(2)
+bar 30: Am9(2) D7(b9)(2)
+bar 31: Gm9(2) C13(2)
+bar 32: Fmaj9(4, velocity 104)
+
+MELODY:
+bar 1 beat 1.0: A4 duration 1.0 velocity 82
+bar 1 beat 2.5: C5 duration 0.5 velocity 88
+bar 1 beat 3.0: D5 duration 1.0 velocity 90
+
+bar 2 beat 1.0: E5 duration 0.5 velocity 92
+bar 2 beat 1.5: C5 duration 0.5 velocity 86
+bar 2 beat 2.5: F#4 duration 0.5 velocity 84
+bar 2 beat 3.0: A4 duration 1.0 velocity 90
+
+bar 3 beat 1.0: Bb4 duration 0.5 velocity 85
+bar 3 beat 1.5: D5 duration 0.5 velocity 88
+bar 3 beat 2.5: E5 duration 0.5 velocity 91
+bar 3 beat 3.0: C5 duration 1.0 velocity 87
+
+bar 4 beat 1.0: A4 duration 2.0 velocity 94
+bar 4 beat 3.5: G4 duration 0.5 velocity 78
+
+bar 5 beat 1.0: F4 duration 1.0 velocity 84
+bar 5 beat 2.5: Gb4 duration 0.5 velocity 86
+bar 5 beat 3.0: F4 duration 1.0 velocity 88
+
+bar 6 beat 1.0: E4 duration 0.5 velocity 82
+bar 6 beat 1.5: C5 duration 0.5 velocity 89
+bar 6 beat 2.5: F#4 duration 0.5 velocity 87
+bar 6 beat 3.0: A4 duration 1.0 velocity 92
+
+bar 7 beat 1.0: Bb4 duration 0.5 velocity 86
+bar 7 beat 1.5: D5 duration 0.5 velocity 90
+bar 7 beat 2.5: E5 duration 0.5 velocity 93
+bar 7 beat 3.0: C5 duration 1.0 velocity 88
+
+bar 8 beat 1.0: A4 duration 1.5 velocity 96
+bar 8 beat 3.0: F4 duration 1.0 velocity 82
+
+bar 9 beat 1.0: C#5 duration 0.5 velocity 90
+bar 9 beat 1.5: E5 duration 0.5 velocity 92
+bar 9 beat 2.5: F5 duration 0.5 velocity 94
+bar 9 beat 3.0: E5 duration 1.0 velocity 88
+
+bar 10 beat 1.0: F5 duration 0.5 velocity 91
+bar 10 beat 1.5: B4 duration 0.5 velocity 87
+bar 10 beat 2.5: Bb4 duration 0.5 velocity 85
+bar 10 beat 3.0: D5 duration 1.0 velocity 89
+
+bar 11 beat 1.0: C5 duration 1.0 velocity 84
+bar 11 beat 2.5: Bb4 duration 0.5 velocity 86
+bar 11 beat 3.0: G4 duration 1.0 velocity 83
+
+bar 12 beat 1.5: F#4 duration 0.5 velocity 85
+bar 12 beat 2.0: A4 duration 0.5 velocity 90
+bar 12 beat 3.0: D5 duration 1.0 velocity 92
+
+bar 13 beat 1.0: Bb4 duration 0.5 velocity 87
+bar 13 beat 1.5: D5 duration 0.5 velocity 91
+bar 13 beat 2.5: E5 duration 0.5 velocity 94
+bar 13 beat 3.0: C5 duration 1.0 velocity 89
+
+bar 14 beat 1.0: A4 duration 1.0 velocity 88
+bar 14 beat 2.5: C#5 duration 0.5 velocity 93
+bar 14 beat 3.0: E5 duration 1.0 velocity 95
+
+bar 15 beat 1.0: F5 duration 0.5 velocity 97
+bar 15 beat 1.5: E5 duration 0.5 velocity 92
+bar 15 beat 2.5: B4 duration 0.5 velocity 89
+bar 15 beat 3.0: A4 duration 1.0 velocity 86
+
+bar 16 beat 1.0: Bb4 duration 0.5 velocity 88
+bar 16 beat 1.5: D5 duration 0.5 velocity 92
+bar 16 beat 2.5: Db5 duration 0.5 velocity 90
+bar 16 beat 3.0: C5 duration 1.0 velocity 94
+
+bar 17 beat 1.0: D5 duration 1.0 velocity 84
+bar 17 beat 2.5: F5 duration 0.5 velocity 88
+bar 17 beat 3.0: Bb4 duration 1.0 velocity 86
+
+bar 18 beat 1.0: Db5 duration 0.5 velocity 90
+bar 18 beat 1.5: Bb4 duration 0.5 velocity 87
+bar 18 beat 2.5: G4 duration 0.5 velocity 85
+bar 18 beat 3.0: F4 duration 1.0 velocity 83
+
+bar 19 beat 1.0: E4 duration 0.5 velocity 84
+bar 19 beat 1.5: C5 duration 0.5 velocity 90
+bar 19 beat 2.5: F#4 duration 0.5 velocity 88
+bar 19 beat 3.0: A4 duration 1.0 velocity 92
+
+bar 20 beat 1.0: Bb4 duration 0.5 velocity 87
+bar 20 beat 1.5: D5 duration 0.5 velocity 91
+bar 20 beat 2.5: E5 duration 0.5 velocity 93
+bar 20 beat 3.0: C5 duration 1.0 velocity 89
+
+bar 21 beat 1.0: A4 duration 1.0 velocity 90
+bar 21 beat 2.5: F#4 duration 0.5 velocity 86
+bar 21 beat 3.0: E4 duration 1.0 velocity 82
+
+bar 22 beat 1.0: G4 duration 0.5 velocity 84
+bar 22 beat 1.5: Bb4 duration 0.5 velocity 88
+bar 22 beat 2.5: Db5 duration 0.5 velocity 91
+bar 22 beat 3.0: C5 duration 1.0 velocity 94
+
+bar 23 beat 1.0: C5 duration 0.5 velocity 89
+bar 23 beat 1.5: E5 duration 0.5 velocity 93
+bar 23 beat 2.5: F#4 duration 0.5 velocity 88
+bar 23 beat 3.0: A4 duration 1.0 velocity 91
+
+bar 24 beat 1.0: Bb4 duration 0.5 velocity 86
+bar 24 beat 1.5: D5 duration 0.5 velocity 90
+bar 24 beat 2.5: E5 duration 0.5 velocity 92
+bar 24 beat 3.0: C5 duration 1.0 velocity 88
+
+bar 25 beat 1.0: A4 duration 1.0 velocity 85
+bar 25 beat 2.5: C5 duration 0.5 velocity 89
+bar 25 beat 3.0: D5 duration 1.0 velocity 92
+
+bar 26 beat 1.0: E5 duration 0.5 velocity 94
+bar 26 beat 1.5: C5 duration 0.5 velocity 88
+bar 26 beat 2.5: F#4 duration 0.5 velocity 86
+bar 26 beat 3.0: A4 duration 1.0 velocity 90
+
+bar 27 beat 1.0: Bb4 duration 0.5 velocity 87
+bar 27 beat 1.5: D5 duration 0.5 velocity 91
+bar 27 beat 2.5: E5 duration 0.5 velocity 94
+bar 27 beat 3.0: C5 duration 1.0 velocity 89
+
+bar 28 beat 1.0: A4 duration 2.0 velocity 98
+bar 28 beat 3.5: F4 duration 0.5 velocity 84
+
+bar 29 beat 1.0: F4 duration 1.0 velocity 86
+bar 29 beat 2.5: Gb4 duration 0.5 velocity 88
+bar 29 beat 3.0: F4 duration 1.0 velocity 90
+
+bar 30 beat 1.0: E4 duration 0.5 velocity 84
+bar 30 beat 1.5: C5 duration 0.5 velocity 91
+bar 30 beat 2.5: F#4 duration 0.5 velocity 88
+bar 30 beat 3.0: A4 duration 1.0 velocity 93
+
+bar 31 beat 1.0: Bb4 duration 0.5 velocity 88
+bar 31 beat 1.5: D5 duration 0.5 velocity 92
+bar 31 beat 2.5: E5 duration 0.5 velocity 95
+bar 31 beat 3.0: C5 duration 1.0 velocity 90
+
+bar 32 beat 1.0: A4 duration 2.0 velocity 100
+bar 32 beat 3.0: F4 duration 1.0 velocity 82
