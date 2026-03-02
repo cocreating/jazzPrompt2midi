@@ -2,6 +2,7 @@
 import { Chord } from 'tonal';
 import * as Tone from 'tone';
 import VirtualPiano from './lib/VirtualPiano.svelte';
+import Timeline from './lib/Timeline.svelte';
 
 // Load default payloads from assets folder dynamically
 const rawDefaults = import.meta.glob('./assets/defaults/*.txt', { eager: true, query: '?raw', import: 'default' });
@@ -144,6 +145,30 @@ const clearActiveNotes = () => {
 let instrument = $state('piano'); // piano, bright-piano, electric-piano, guitar
 let voicingMode = $state('jazz');
 let zenMode = $state(false);
+
+const handleSeek = (targetBeat) => {
+    const secondsPerBeat = 60 / bpm;
+    const targetSeconds = targetBeat * secondsPerBeat;
+
+    const wasPlaying = isPlaying;
+    if (wasPlaying) {
+        Tone.Transport.pause();
+    }
+
+    Tone.Transport.seconds = targetSeconds;
+
+    if (wasPlaying) {
+        Tone.Transport.start();
+    } else {
+        // Update visual state if paused
+        isPlaying = false;
+        isPaused = true;
+        statusText = `Seeked to beat ${targetBeat.toFixed(2)}`;
+    }
+
+    // Clear active notes visually
+    clearActiveNotes();
+};
 
 const stopSequence = () => {
     isPlaying = false;
@@ -570,6 +595,7 @@ const toggleOptions = () => {
 
     {#if !zenMode}
         <VirtualPiano {activeChordNotes} {activeMelodyNotes} />
+        <Timeline totalBars={bars} {bpb} onSeek={handleSeek} />
     {/if}
 
     <footer class="footer-controls">
