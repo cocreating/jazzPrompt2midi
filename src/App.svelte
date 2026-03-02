@@ -100,7 +100,8 @@ let notesCount = $derived(notesMatches.length);
 let isPlaying = $state(false);
 let isPaused = $state(false);
 let statusText = $state("Ready");
-let sampler = null;
+let chordSampler = $state(null);
+let melodySampler = $state(null);
 let melodyPart = null;
 let chordsPart = null;
 let stopEventId = null;
@@ -142,7 +143,8 @@ const clearActiveNotes = () => {
     activeMelodyNotes = new Set();
 };
 
-let instrument = $state('piano'); // piano, bright-piano, electric-piano, guitar
+let chordInstrument = $state('piano');
+let melodyInstrument = $state('piano');
 let voicingMode = $state('jazz');
 let zenMode = $state(false);
 
@@ -178,8 +180,11 @@ const stopSequence = () => {
     Tone.Transport.cancel();
     stopEventId = null;
     clearActiveNotes();
-    if (sampler) {
-        sampler.releaseAll(Tone.now());
+    if (chordSampler) {
+        chordSampler.releaseAll(Tone.now());
+    }
+    if (melodySampler) {
+        melodySampler.releaseAll(Tone.now());
     }
     if (melodyPart) { melodyPart.dispose(); melodyPart = null; }
     if (chordsPart) { chordsPart.dispose(); chordsPart = null; }
@@ -192,7 +197,7 @@ const setupParts = () => {
         Tone.Transport.clear(stopEventId);
         stopEventId = null;
     }
-    if (!sampler) return;
+    if (!chordSampler || !melodySampler) return;
 
     const firstMelBar = notesMatches.length ? parseInt(notesMatches[0][1]) : 999;
     const firstChdBar = chordsMatches.length ? chordsMatches[0].bar : 999;
@@ -216,7 +221,7 @@ const setupParts = () => {
 
     melodyPart = new Tone.Part((t, e) => {
         if (e.note.toUpperCase() !== 'REST') {
-            sampler.triggerAttackRelease(e.note, e.dur, t, e.vel);
+            melodySampler.triggerAttackRelease(e.note, e.dur, t, e.vel);
             Tone.Draw.schedule(() => {
                 addMelodyNote(e.note);
             }, t);
@@ -240,7 +245,7 @@ const setupParts = () => {
     });
 
     chordsPart = new Tone.Part((t, e) => {
-        sampler.triggerAttackRelease(e.notes, e.dur, t, e.vel);
+        chordSampler.triggerAttackRelease(e.notes, e.dur, t, e.vel);
         Tone.Draw.schedule(() => {
             e.notes.forEach(n => addChordNote(n));
         }, t);
@@ -302,6 +307,64 @@ $effect(() => {
     }
 });
 
+const loadInstrumentSampler = async (instr) => {
+    const salamanderUrls = {
+        A0: "A0.mp3", A1: "A1.mp3", A2: "A2.mp3", A3: "A3.mp3", A4: "A4.mp3", A5: "A5.mp3", A6: "A6.mp3", A7: "A7.mp3",
+        C1: "C1.mp3", C2: "C2.mp3", C3: "C3.mp3", C4: "C4.mp3", C5: "C5.mp3", C6: "C6.mp3", C7: "C7.mp3", C8: "C8.mp3",
+        "D#1": "Ds1.mp3", "D#2": "Ds2.mp3", "D#3": "Ds3.mp3", "D#4": "Ds4.mp3", "D#5": "Ds5.mp3", "D#6": "Ds6.mp3", "D#7": "Ds7.mp3",
+        "F#1": "Fs1.mp3", "F#2": "Fs2.mp3", "F#3": "Fs3.mp3", "F#4": "Fs4.mp3", "F#5": "Fs5.mp3", "F#6": "Fs6.mp3", "F#7": "Fs7.mp3"
+    };
+
+    const midiJsUrls = {
+        "C1": "C1.mp3", "Db1": "Db1.mp3", "D1": "D1.mp3", "Eb1": "Eb1.mp3", "E1": "E1.mp3", "F1": "F1.mp3", "Gb1": "Gb1.mp3", "G1": "G1.mp3", "Ab1": "Ab1.mp3", "A1": "A1.mp3", "Bb1": "Bb1.mp3", "B1": "B1.mp3",
+        "C2": "C2.mp3", "Db2": "Db2.mp3", "D2": "D2.mp3", "Eb2": "Eb2.mp3", "E2": "E2.mp3", "F2": "F2.mp3", "Gb2": "Gb2.mp3", "G2": "G2.mp3", "Ab2": "Ab2.mp3", "A2": "A2.mp3", "Bb2": "Bb2.mp3", "B2": "B2.mp3",
+        "C3": "C3.mp3", "Db3": "Db3.mp3", "D3": "D3.mp3", "Eb3": "Eb3.mp3", "E3": "E3.mp3", "F3": "F3.mp3", "Gb3": "Gb3.mp3", "G3": "G3.mp3", "Ab3": "Ab3.mp3", "A3": "A3.mp3", "Bb3": "Bb3.mp3", "B3": "B3.mp3",
+        "C4": "C4.mp3", "Db4": "Db4.mp3", "D4": "D4.mp3", "Eb4": "Eb4.mp3", "E4": "E4.mp3", "F4": "F4.mp3", "Gb4": "Gb4.mp3", "G4": "G4.mp3", "Ab4": "Ab4.mp3", "A4": "A4.mp3", "Bb4": "Bb4.mp3", "B4": "B4.mp3",
+        "C5": "C5.mp3", "Db5": "Db5.mp3", "D5": "D5.mp3", "Eb5": "Eb5.mp3", "E5": "E5.mp3", "F5": "F5.mp3", "Gb5": "Gb5.mp3", "G5": "G5.mp3", "Ab5": "Ab5.mp3", "A5": "A5.mp3", "Bb5": "Bb5.mp3", "B5": "B5.mp3",
+        "C6": "C6.mp3", "Db6": "Db6.mp3", "D6": "D6.mp3", "Eb6": "Eb6.mp3", "E6": "E6.mp3", "F6": "F6.mp3", "Gb6": "Gb6.mp3", "G6": "G6.mp3", "Ab6": "Ab6.mp3", "A6": "A6.mp3", "Bb6": "Bb6.mp3", "B6": "B6.mp3"
+    };
+
+    const guitarUrls = {
+        "F#2": "Fs2.mp3", "F#3": "Fs3.mp3", "F#4": "Fs4.mp3", "F#5": "Fs5.mp3",
+        G2: "G2.mp3", G3: "G3.mp3", G4: "G4.mp3", G5: "G5.mp3",
+        "G#2": "Gs2.mp3", "G#3": "Gs3.mp3", "G#4": "Gs4.mp3", "G#5": "Gs5.mp3",
+        A2: "A2.mp3", A3: "A3.mp3", A4: "A4.mp3", A5: "A5.mp3",
+        "A#2": "As2.mp3", "A#3": "As3.mp3", "A#4": "As4.mp3", "A#5": "As5.mp3",
+        B2: "B2.mp3", B3: "B3.mp3", B4: "B4.mp3", B5: "B5.mp3",
+        C3: "C3.mp3", C4: "C4.mp3", C5: "C5.mp3", C6: "C6.mp3",
+        "C#3": "Cs3.mp3", "C#4": "Cs4.mp3", "C#5": "Cs5.mp3", "C#6": "Cs6.mp3",
+        D3: "D3.mp3", D4: "D4.mp3", D5: "D5.mp3", D6: "D6.mp3",
+        "D#3": "Ds3.mp3", "D#4": "Ds4.mp3", "D#5": "Ds5.mp3", "D#6": "Ds6.mp3",
+        E2: "E2.mp3", E3: "E3.mp3", E4: "E4.mp3", E5: "E5.mp3"
+    };
+
+    const selectedUrlsMap = instr === 'piano' ? salamanderUrls
+                           : (instr === 'guitar' ? guitarUrls : midiJsUrls);
+
+    const baseUrls = {
+        piano: "/samples/piano/",
+        'bright-piano': "/samples/bright-piano/",
+        'electric-piano': "/samples/electric-piano/",
+        guitar: "/samples/guitar/"
+    };
+
+    const selectedBase = baseUrls[instr] || baseUrls.piano;
+
+    try {
+        const s = new Tone.Sampler({
+            urls: selectedUrlsMap,
+            release: 1,
+            baseUrl: selectedBase
+        }).toDestination();
+        await Tone.loaded();
+        return s;
+    } catch (err) {
+        console.error(`Sampler loading failed for ${instr}:`, err);
+        return null;
+    }
+};
+
+
 const togglePlay = async () => {
     if (isPlaying) {
         Tone.Transport.pause();
@@ -313,66 +376,26 @@ const togglePlay = async () => {
 
     if (!bpm || !time || (!notesCount && !chordsCount)) { statusText = "Invalid Payload Data"; return; }
 
-    if (!sampler) {
-        const salamanderUrls = {
-            A0: "A0.mp3", A1: "A1.mp3", A2: "A2.mp3", A3: "A3.mp3", A4: "A4.mp3", A5: "A5.mp3", A6: "A6.mp3", A7: "A7.mp3",
-            C1: "C1.mp3", C2: "C2.mp3", C3: "C3.mp3", C4: "C4.mp3", C5: "C5.mp3", C6: "C6.mp3", C7: "C7.mp3", C8: "C8.mp3",
-            "D#1": "Ds1.mp3", "D#2": "Ds2.mp3", "D#3": "Ds3.mp3", "D#4": "Ds4.mp3", "D#5": "Ds5.mp3", "D#6": "Ds6.mp3", "D#7": "Ds7.mp3",
-            "F#1": "Fs1.mp3", "F#2": "Fs2.mp3", "F#3": "Fs3.mp3", "F#4": "Fs4.mp3", "F#5": "Fs5.mp3", "F#6": "Fs6.mp3", "F#7": "Fs7.mp3"
-        };
+    statusText = "Initializing Audio...";
+    await Tone.start();
 
-        const midiJsUrls = {
-            "C1": "C1.mp3", "Db1": "Db1.mp3", "D1": "D1.mp3", "Eb1": "Eb1.mp3", "E1": "E1.mp3", "F1": "F1.mp3", "Gb1": "Gb1.mp3", "G1": "G1.mp3", "Ab1": "Ab1.mp3", "A1": "A1.mp3", "Bb1": "Bb1.mp3", "B1": "B1.mp3",
-            "C2": "C2.mp3", "Db2": "Db2.mp3", "D2": "D2.mp3", "Eb2": "Eb2.mp3", "E2": "E2.mp3", "F2": "F2.mp3", "Gb2": "Gb2.mp3", "G2": "G2.mp3", "Ab2": "Ab2.mp3", "A2": "A2.mp3", "Bb2": "Bb2.mp3", "B2": "B2.mp3",
-            "C3": "C3.mp3", "Db3": "Db3.mp3", "D3": "D3.mp3", "Eb3": "Eb3.mp3", "E3": "E3.mp3", "F3": "F3.mp3", "Gb3": "Gb3.mp3", "G3": "G3.mp3", "Ab3": "Ab3.mp3", "A3": "A3.mp3", "Bb3": "Bb3.mp3", "B3": "B3.mp3",
-            "C4": "C4.mp3", "Db4": "Db4.mp3", "D4": "D4.mp3", "Eb4": "Eb4.mp3", "E4": "E4.mp3", "F4": "F4.mp3", "Gb4": "Gb4.mp3", "G4": "G4.mp3", "Ab4": "Ab4.mp3", "A4": "A4.mp3", "Bb4": "Bb4.mp3", "B4": "B4.mp3",
-            "C5": "C5.mp3", "Db5": "Db5.mp3", "D5": "D5.mp3", "Eb5": "Eb5.mp3", "E5": "E5.mp3", "F5": "F5.mp3", "Gb5": "Gb5.mp3", "G5": "G5.mp3", "Ab5": "Ab5.mp3", "A5": "A5.mp3", "Bb5": "Bb5.mp3", "B5": "B5.mp3",
-            "C6": "C6.mp3", "Db6": "Db6.mp3", "D6": "D6.mp3", "Eb6": "Eb6.mp3", "E6": "E6.mp3", "F6": "F6.mp3", "Gb6": "Gb6.mp3", "G6": "G6.mp3", "Ab6": "Ab6.mp3", "A6": "A6.mp3", "Bb6": "Bb6.mp3", "B6": "B6.mp3"
-        };
-
-        const guitarUrls = {
-            "F#2": "Fs2.mp3", "F#3": "Fs3.mp3", "F#4": "Fs4.mp3", "F#5": "Fs5.mp3",
-            G2: "G2.mp3", G3: "G3.mp3", G4: "G4.mp3", G5: "G5.mp3",
-            "G#2": "Gs2.mp3", "G#3": "Gs3.mp3", "G#4": "Gs4.mp3", "G#5": "Gs5.mp3",
-            A2: "A2.mp3", A3: "A3.mp3", A4: "A4.mp3", A5: "A5.mp3",
-            "A#2": "As2.mp3", "A#3": "As3.mp3", "A#4": "As4.mp3", "A#5": "As5.mp3",
-            B2: "B2.mp3", B3: "B3.mp3", B4: "B4.mp3", B5: "B5.mp3",
-            C3: "C3.mp3", C4: "C4.mp3", C5: "C5.mp3", C6: "C6.mp3",
-            "C#3": "Cs3.mp3", "C#4": "Cs4.mp3", "C#5": "Cs5.mp3", "C#6": "Cs6.mp3",
-            D3: "D3.mp3", D4: "D4.mp3", D5: "D5.mp3", D6: "D6.mp3",
-            "D#3": "Ds3.mp3", "D#4": "Ds4.mp3", "D#5": "Ds5.mp3", "D#6": "Ds6.mp3",
-            E2: "E2.mp3", E3: "E3.mp3", E4: "E4.mp3", E5: "E5.mp3"
-        };
-
-        const selectedUrlsMap = instrument === 'piano' ? salamanderUrls
-                               : (instrument === 'guitar' ? guitarUrls : midiJsUrls);
-
-        const baseUrls = {
-            piano: "/samples/piano/",
-            'bright-piano': "/samples/bright-piano/",
-            'electric-piano': "/samples/electric-piano/",
-            guitar: "/samples/guitar/"
-        };
-
-        const selectedBase = baseUrls[instrument] || baseUrls.piano;
-
-        statusText = `Downloading ${instrument} Samples...`;
-        try {
-            sampler = new Tone.Sampler({
-                urls: selectedUrlsMap,
-                release: 1,
-                baseUrl: selectedBase
-            }).toDestination();
-            await Tone.loaded();
-        } catch (err) {
-            console.error("Sampler loading failed:", err);
-            statusText = `Error loading ${instrument} samples. Check connection.`;
-            sampler = null;
-            return;
+    if (!chordSampler) {
+        statusText = `Loading Chord Instrument: ${chordInstrument}...`;
+        chordSampler = await loadInstrumentSampler(chordInstrument);
+        if (!chordSampler) {
+             statusText = `Error loading ${chordInstrument}. Check connection.`;
+             return;
         }
     }
 
-    await Tone.start();
+    if (!melodySampler) {
+        statusText = `Loading Melody Instrument: ${melodyInstrument}...`;
+        melodySampler = await loadInstrumentSampler(melodyInstrument);
+        if (!melodySampler) {
+             statusText = `Error loading ${melodyInstrument}. Check connection.`;
+             return;
+        }
+    }
 
     if (!isPaused) {
         Tone.Transport.cancel();
@@ -618,8 +641,18 @@ const toggleOptions = () => {
             <h3>OPTIONS</h3>
 
             <div class="option-group">
-                <label for="instr-select">Instrument</label>
-                <select id="instr-select" bind:value={instrument} onchange={() => { stopSequence(); if(sampler) { sampler.dispose(); sampler = null; } }}>
+                <label for="chords-instr-select">Chords Instrument</label>
+                <select id="chords-instr-select" bind:value={chordInstrument} onchange={() => { stopSequence(); if(chordSampler) { chordSampler.dispose(); chordSampler = null; } }}>
+                    <option value="piano">Classic Grand (Salamander)</option>
+                    <option value="bright-piano">Bright Piano (VSO2)</option>
+                    <option value="electric-piano">Electric Piano (Rhodes)</option>
+                    <option value="guitar">Jazz Guitar (Acoustic)</option>
+                </select>
+            </div>
+
+            <div class="option-group">
+                <label for="melody-instr-select">Melody Instrument</label>
+                <select id="melody-instr-select" bind:value={melodyInstrument} onchange={() => { stopSequence(); if(melodySampler) { melodySampler.dispose(); melodySampler = null; } }}>
                     <option value="piano">Classic Grand (Salamander)</option>
                     <option value="bright-piano">Bright Piano (VSO2)</option>
                     <option value="electric-piano">Electric Piano (Rhodes)</option>
