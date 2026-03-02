@@ -325,17 +325,17 @@ const loadInstrumentSampler = async (instr) => {
     };
 
     const guitarUrls = {
-        "F#2": "Fs2.mp3", "F#3": "Fs3.mp3", "F#4": "Fs4.mp3", "F#5": "Fs5.mp3",
-        G2: "G2.mp3", G3: "G3.mp3", G4: "G4.mp3", G5: "G5.mp3",
-        "G#2": "Gs2.mp3", "G#3": "Gs3.mp3", "G#4": "Gs4.mp3", "G#5": "Gs5.mp3",
-        A2: "A2.mp3", A3: "A3.mp3", A4: "A4.mp3", A5: "A5.mp3",
-        "A#2": "As2.mp3", "A#3": "As3.mp3", "A#4": "As4.mp3", "A#5": "As5.mp3",
-        B2: "B2.mp3", B3: "B3.mp3", B4: "B4.mp3", B5: "B5.mp3",
-        C3: "C3.mp3", C4: "C4.mp3", C5: "C5.mp3", C6: "C6.mp3",
-        "C#3": "Cs3.mp3", "C#4": "Cs4.mp3", "C#5": "Cs5.mp3", "C#6": "Cs6.mp3",
-        D3: "D3.mp3", D4: "D4.mp3", D5: "D5.mp3", D6: "D6.mp3",
-        "D#3": "Ds3.mp3", "D#4": "Ds4.mp3", "D#5": "Ds5.mp3", "D#6": "Ds6.mp3",
-        E2: "E2.mp3", E3: "E3.mp3", E4: "E4.mp3", E5: "E5.mp3"
+        "F#2": "Fs2.mp3", "F#3": "Fs3.mp3", "F#4": "Fs4.mp3",
+        G2: "G2.mp3", G3: "G3.mp3", G4: "G4.mp3",
+        "G#2": "Gs2.mp3", "G#3": "Gs3.mp3", "G#4": "Gs4.mp3",
+        A2: "A2.mp3", A3: "A3.mp3", A4: "A4.mp3",
+        "A#2": "As2.mp3", "A#3": "As3.mp3", "A#4": "As4.mp3",
+        B2: "B2.mp3", B3: "B3.mp3", B4: "B4.mp3",
+        C3: "C3.mp3", C4: "C4.mp3", C5: "C5.mp3",
+        "C#3": "Cs3.mp3", "C#4": "Cs4.mp3", "C#5": "Cs5.mp3",
+        D3: "D3.mp3", D4: "D4.mp3", D5: "D5.mp3",
+        "D#3": "Ds3.mp3", "D#4": "Ds4.mp3",
+        E2: "E2.mp3", E3: "E3.mp3", E4: "E4.mp3"
     };
 
     const selectedUrlsMap = instr === 'piano' ? salamanderUrls
@@ -350,18 +350,23 @@ const loadInstrumentSampler = async (instr) => {
 
     const selectedBase = baseUrls[instr] || baseUrls.piano;
 
-    try {
-        const s = new Tone.Sampler({
-            urls: selectedUrlsMap,
-            release: 1,
-            baseUrl: selectedBase
-        }).toDestination();
-        await Tone.loaded();
-        return s;
-    } catch (err) {
-        console.error(`Sampler loading failed for ${instr}:`, err);
-        return null;
-    }
+    return new Promise((resolve) => {
+        try {
+            const s = new Tone.Sampler({
+                urls: selectedUrlsMap,
+                release: 1,
+                baseUrl: selectedBase,
+                onload: () => resolve(s),
+                onerror: (err) => {
+                    console.error(`Sampler loading error for ${instr}:`, err);
+                    resolve(null);
+                }
+            }).toDestination();
+        } catch (err) {
+            console.error(`Sampler instantiation failed for ${instr}:`, err);
+            resolve(null);
+        }
+    });
 };
 
 
@@ -379,22 +384,28 @@ const togglePlay = async () => {
     statusText = "Initializing Audio...";
     await Tone.start();
 
+    const loaders = [];
     if (!chordSampler) {
-        statusText = `Loading Chord Instrument: ${chordInstrument}...`;
-        chordSampler = await loadInstrumentSampler(chordInstrument);
-        if (!chordSampler) {
-             statusText = `Error loading ${chordInstrument}. Check connection.`;
-             return;
-        }
+        loaders.push((async () => {
+            statusText = `Loading Chord Instrument: ${chordInstrument}...`;
+            chordSampler = await loadInstrumentSampler(chordInstrument);
+        })());
     }
 
     if (!melodySampler) {
-        statusText = `Loading Melody Instrument: ${melodyInstrument}...`;
-        melodySampler = await loadInstrumentSampler(melodyInstrument);
-        if (!melodySampler) {
-             statusText = `Error loading ${melodyInstrument}. Check connection.`;
-             return;
-        }
+        loaders.push((async () => {
+            statusText = `Loading Melody Instrument: ${melodyInstrument}...`;
+            melodySampler = await loadInstrumentSampler(melodyInstrument);
+        })());
+    }
+
+    if (loaders.length > 0) {
+        await Promise.all(loaders);
+    }
+
+    if (!chordSampler || !melodySampler) {
+        statusText = "Error loading instruments. Check connection and local assets.";
+        return;
     }
 
     if (!isPaused) {
