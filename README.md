@@ -10,7 +10,9 @@ The goal of this application is to take a rigorously structured prompt text that
 It acts as both a **Text-to-Audio** player and a **Text-to-MIDI** parser, built entirely on pure client-side Vanilla JavaScript logic over a modern Svelte 5 reactive framework.
 
 ### Features
-*   **Acoustic Realism**: Bypasses raw synthetic sine waves by integrating **Tone.js** with high-resolution acoustic samples from the Salamander Yamaha Grand Piano.
+*   **Acoustic Realism**: Bypasses raw synthetic sine waves by integrating **Tone.js** with high-resolution localized acoustic samples.
+*   **100% Offline & Reliable**: All 200+ instrument samples are stored locally in the `public/samples/` directory, removing any dependency on external audio CDNs.
+*   **Multiple Instruments**: Switch between **Classic Grand (Salamander)**, **Bright Piano (Musyng Kite)**, **Electric Piano (Rhodes)**, and **Jazz Guitar** for diverse soundscapes.
 *   **Floating-Point Micro-Timing**: Interprets continuous, non-grid-locked human gesture from text inputs like `beat 1.63 duration 0.58`. Web Audio and Tone.js playback algorithms mathematically schedule audio graphs precisely without snapping/quantization.
 *   **Dual-Channel Polyphony (Chords + Melody)**: Uses the **`tonal`** music theory library to intelligently resolve complex jazz chord nomenclatures (e.g. `Am7b5`, `D7alt`, `Bbmaj7#11`) into stacked chord sets.
 *   **Virtual Piano Visualization**: Real-time visual feedback of active notes on a full-width virtual keyboard, synchronized with the audio engine via `Tone.Draw`.
@@ -49,7 +51,7 @@ It acts as both a **Text-to-Audio** player and a **Text-to-MIDI** parser, built 
 
 The application includes an **Options** menu for tailoring the performance:
 
-*   **Instrument Selection**: Switch between a high-fidelity **Acoustic Piano** and a **Jazz Guitar** sampler.
+*   **Instrument Selection**: Switch between high-fidelity **Classic Grand**, **Bright Piano**, **Electric Piano (Rhodes)**, and **Jazz Guitar** samplers. All samples are served locally for zero-latency loading.
 *   **Chord Voicing Modes**:
     *   **Basic**: Standard triadic/seventh voicings (ideal for simple lead sheets).
     *   **Jazz**: Shell voicings with common extensions (3rds, 7ths, and color tones).

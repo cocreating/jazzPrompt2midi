@@ -6,21 +6,21 @@ JazzPrompt2MIDI is a modern, web-based DAW-lite application designed for rapid j
 ## Technical Stack
 - **Framework**: Svelte 5 (Native Runes: `$state`, `$derived`, `$effect`).
 - **Audio Engine**: Tone.js (Transport-based scheduling).
-- **Instruments**: Salamander Grand Piano (multi-sample Sampler).
+- **Instruments**: Localized Multi-Sample Library (Grand Piano, Bright Piano, Rhodes, Guitar).
 - **Music Theory**: Tonal.js (Chord resolution and interval math).
 - **Styling**: Vanilla CSS (macOS Desktop/Terminal aesthetic).
 
 ## Architectural Design
 ### Reactivity Chain
 1. **Source of Truth**: The `payload` variable (a large YAML-like string).
-2. **Parsing Layer**: Derived variables use regex to scan the payload for metadata (`TEMPO`, `KEY`, `TIME`) and musical sections (`CHORDS`, `MELODY`).
+2. **Parsing Layer**: Derived variables use regex to scan the payload for metadata (`TEMPO`, `KEY`, `TIME`) and musical sections (`CHORDS`, `MELODY`). Supports `REST` markers for rhythmic silence.
 3. **Audio Sync**: A debounced `$effect` monitors changes to the parsed music data. When changes occur during playback, it disposes of existing `Tone.Part` instances and re-constructs the musical sequence on the `Tone.Transport`.
 4. **Bi-Directional Sync**: A `updateMeta` helper allows UI inputs (the status bar) to perform partial string replacements on the source `payload`, keeping the text and UI in perfect sync.
 
 ### Audio Pipeline
 - **Tone.Transport**: Manages the master clock and relative beat positioning.
 - **Tone.Part**: Handles event-driven playback for the Chord and Melody tracks.
-- **Tone.Sampler**: Provides high-resolution acoustic piano playback using the Salamander set.
+- **Local Sampler**: Provides high-resolution acoustic playback using samples served from `/public/samples/`. This ensures 100% offline reliability.
 - **Tone.Draw**: Used to synchronize the UI (Virtual Piano) with the audio engine's precise timing.
 
 ### UI & Visualization
@@ -32,7 +32,7 @@ JazzPrompt2MIDI is a modern, web-based DAW-lite application designed for rapid j
 
 ### Options & Performance
 - **Global Options**: A `$state` object manages `instrument` (Piano/Guitar), `voicingMode` (Basic/Jazz/Wide), and `zenMode`.
-- **Dynamic Sampling**: Switching instruments triggers a dynamic reload of the `Tone.Sampler` with appropriate URL maps, ensuring high-fidelity playback without bloating the initial page load.
+- **Dynamic Sampling**: Switching instruments triggers a dynamic disposal and reload of the `Tone.Sampler` using local assets.
 
 ### MIDI Generation
 - **Format**: MIDI Format 1 (Multi-track).
