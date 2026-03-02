@@ -1,0 +1,257 @@
+1. Dense Post-Bop Fire
+
+Compose a 32-bar post-bop tune in F minor at 240 BPM, heavy swing, silence level low, featuring rapid harmonic motion and altered dominants.
+
+Demonstrates: high-density phrasing, minimal rests, bebop-informed velocity contour.
+
+2. Spacious Modern Ballad
+
+Write a 24-bar modern jazz ballad in Eb major at 58 BPM, silence level hard, medium swing feel, with harmonic color shifts and iv minor usage.
+
+Demonstrates: structural silence, cadential space, dynamic shaping, lyrical architecture.
+
+3. Modal Architecture
+
+Create a 16-bar modal composition in D Dorian at 120 BPM, medium swing, silence level mid, emphasizing motivic development over static harmony.
+
+Demonstrates: motivic governance, modal tension, rhythmic variation without harmonic density.
+
+4. Blues with Harmonic Expansion
+
+Compose a 12-bar blues in Bb at 160 BPM, heavy swing, silence level mid, incorporating tritone substitutions and backdoor dominants.
+
+Demonstrates: idiomatic blues vocabulary with advanced harmonic extensions.
+
+5. Odd Meter Contemporary Piece
+
+Write a 20-bar composition in 5/4 in C minor at 132 BPM, light swing, silence level hard, using guide-tone driven voice-leading.
+
+Demonstrates: asymmetrical phrasing, silence as architecture, non-4/4 swing elasticity.
+
+6. Medium Swing Standard Form
+
+Compose a 32-bar AABA tune in G major at 140 BPM, medium swing, silence level mid, in the spirit of classic hard bop.
+
+Demonstrates: functional harmony, clear motive development, cadential logic.
+
+7. Rubato Intro into Swing
+
+Write a 4-bar rubato intro resolving into a 28-bar swing form in Ab major at 150 BPM, silence level mid.
+
+Demonstrates: structural contrast, tempo transition control, dynamic arc shaping.
+
+8. Minimalist Fragment Study
+
+Create a 16-bar composition in E minor at 96 BPM, no swing, silence level hard, built from a three-note motivic cell with fragmentation and subtraction.
+
+Demonstrates: motivic economy, spatial design, density contour discipline.
+
+If you'd like, I can also create:
+
+Style-specific prompt sets (bebop only, modal only, avant-garde, etc.)
+
+Educational prompts (scale-constraint based, chord-tone-only solos)
+
+Progressive difficulty prompt ladders
+
+Performance simulation prompts (live trio energy, late-night club feel)
+
+Let me know which direction you'd like to expand.
+
+Now updating behavior state.
+
+go ahead
+
+Below are expanded structured prompt libraries that showcase Jazz GPT’s full range across style, pedagogy, structure, and performance simulation.
+
+🎷 I. Style-Specific Prompt Set
+Bebop Precision
+
+Compose a 32-bar bebop head in Bb at 280 BPM, heavy swing, silence level low, with chromatic enclosures and dominant chains.
+
+Hard Bop Groove
+
+Write a 24-bar hard bop tune in F minor at 168 BPM, medium swing, silence level mid, featuring gospel-influenced IV movement.
+
+Modal Modernism
+
+Create a 20-bar modal piece in E Dorian at 126 BPM, silence level mid, emphasizing motivic displacement over harmonic shifts.
+
+Contemporary ECM-Inspired
+
+Compose a 28-bar piece in C major at 92 BPM, no swing, silence level hard, with quartal harmony and sustained voicings.
+
+Afro-Latin Hybrid
+
+Write a 32-bar composition in A minor at 140 BPM, light swing, silence level mid, incorporating pedal points and secondary dominants.
+
+🎓 II. Educational / Constraint-Based Prompts
+Chord-Tone Only Study
+
+Compose a 16-bar swing piece in G major at 150 BPM, silence level mid, where the melody uses only chord tones.
+
+Guide-Tone Emphasis
+
+Write a 24-bar composition in D minor at 132 BPM, medium swing, silence level mid, prioritizing 3rds and 7ths on strong beats.
+
+Rhythmic Displacement Study
+
+Create a 16-bar piece in Bb major at 160 BPM, heavy swing, silence level mid, built from one displaced rhythmic motive.
+
+Blues Vocabulary Drill
+
+Compose a 12-bar blues in F at 180 BPM, silence level low, featuring diminished passing chords and altered V chords.
+
+🏗 III. Structural Exploration Prompts
+Through-Composed Form
+
+Write a 30-bar continuous-form piece in Eb minor at 110 BPM, silence level hard, no repeated A section.
+
+AABA with Modulating Bridge
+
+Compose a 32-bar AABA tune in C major at 144 BPM, silence level mid, with a bridge modulating up a major third.
+
+Odd Meter Study
+
+Create a 21-bar composition in 7/4 in G minor at 120 BPM, silence level mid, medium swing.
+
+Rubato Intro → Swing Release
+
+Write a 6-bar rubato intro leading into a 26-bar swing form in F major at 156 BPM, silence level mid.
+
+🎭 IV. Performance Simulation Prompts
+Late-Night Trio Club
+
+Compose a 24-bar slow swing in Ab major at 68 BPM, silence level hard, shaped like a smoky trio performance.
+
+Festival Opener
+
+Write a 32-bar high-energy post-bop piece in E minor at 220 BPM, heavy swing, silence level low.
+
+Intimate Duo Setting
+
+Create a 20-bar composition in D major at 96 BPM, light swing, silence level hard, with exposed melodic phrasing.
+
+Encore Blues
+
+Compose a 12-bar blues in Bb at 200 BPM, heavy swing, silence level mid, built for dramatic climax and crowd energy.
+
+🧠 V. Motivic Development Laboratory
+Three-Note Cell
+
+Write a 16-bar piece in C minor at 124 BPM, silence level hard, built entirely from a three-note cell.
+
+Inversion Architecture
+
+Compose a 20-bar tune in F# minor at 132 BPM, medium swing, silence level mid, where the main motive is inverted in the second half.
+
+Augmentation Study
+
+Create a 24-bar composition in Eb major at 108 BPM, silence level mid, developing a motive through rhythmic augmentation.
+
+
+
+
+Below are two advanced structured prompt libraries designed to showcase long-form architectural thinking and stylistic hybridity.
+
+🎼 1️⃣ Album-Concept Prompt Sequences
+
+Each sequence functions as a cohesive artistic arc. The prompts are ordered intentionally to create narrative progression.
+
+A. “Night Architecture” (Urban Modern Jazz Concept)
+
+Track 1 – Opening Statement
+
+Compose a 28-bar post-bop piece in C minor at 178 BPM, medium swing, silence level mid, introducing a sharp three-note motive.
+
+Track 2 – After Hours Ballad
+
+Write a 24-bar ballad in Eb major at 60 BPM, silence level hard, developing the same motive through augmentation.
+
+Track 3 – City Motion
+
+Create a 32-bar uptempo piece in F minor at 260 BPM, heavy swing, silence level low, fragmenting the original motive.
+
+Track 4 – Interlude (Rubato)
+
+Compose a 10-bar rubato piece in Ab major, silence level hard, reharmonizing the motive with quartal voicings.
+
+Track 5 – Resolution
+
+Write a 32-bar AABA in C minor at 150 BPM, medium swing, silence level mid, inverting the original motive in the bridge.
+
+B. “Cycle of Fifths Journey” (Harmonic Concept Album)
+
+Each track modulates up a fifth from the previous tonal center.
+
+Track 1 – D minor
+
+24-bar modal-swing in D minor, 132 BPM, silence level mid.
+
+Track 2 – A minor
+
+28-bar hard bop tune in A minor, 176 BPM, silence level low.
+
+Track 3 – E minor
+
+20-bar odd-meter (5/4) composition in E minor, 118 BPM, silence level mid.
+
+Track 4 – B minor
+
+24-bar lyrical modern ballad in B minor, 66 BPM, silence level hard.
+
+Track 5 – F# minor (Climax)
+
+32-bar post-bop finale in F# minor, 220 BPM, heavy swing, silence level low.
+
+C. “Silence as Narrative” (Spatial Concept Album)
+
+Each track increases silence density.
+
+Track 1 – Low Silence
+
+32-bar bebop in Bb, 240 BPM, silence level low.
+
+Track 2 – Balanced Space
+
+24-bar swing in G minor, 148 BPM, silence level mid.
+
+Track 3 – Structural Space
+
+20-bar contemporary piece in Eb major, 104 BPM, silence level hard.
+
+Track 4 – Near-Minimal
+
+16-bar no-swing piece in C minor, 88 BPM, silence level hard, extreme motivic subtraction.
+
+🎭 2️⃣ Style Fusion Prompt Library
+
+These prompts deliberately hybridize harmonic language, motivic design, and rhythmic identity.
+
+Monk Harmony + Wayne Shorter Motivics
+
+Compose a 32-bar tune in F minor at 156 BPM, medium swing, silence level mid, using angular dominant harmony with non-symmetrical motivic development.
+
+Coltrane Harmonic Cycles + Bill Evans Lyricism
+
+Write a 28-bar composition in B major at 132 BPM, medium swing, silence level mid, combining third-cycle harmonic motion with lyrical motivic contour.
+
+Miles Davis Modal Economy + Chick Corea Rhythmic Angularity
+
+Create a 24-bar modal piece in D Dorian at 140 BPM, light swing, silence level mid, emphasizing rhythmic displacement over static harmony.
+
+Horace Silver Gospel Roots + McCoy Tyner Quartal Power
+
+Compose a 32-bar tune in Bb minor at 172 BPM, heavy swing, silence level mid, blending gospel IV movement with quartal harmonic color.
+
+Ornette Coleman Freedom + Structured Functional Cadences
+
+Write a 20-bar composition in G major at 150 BPM, medium swing, silence level hard, allowing melodic freedom within defined cadential anchors.
+
+Duke Ellington Orchestral Harmony + Modern Post-Bop Density
+
+Compose a 30-bar piece in Eb major at 160 BPM, medium swing, silence level mid, incorporating lush dominant extensions and motivic fragmentation.
+
+Charlie Parker Bebop Language + Contemporary Rhythmic Displacement
+
+Create a 32-bar tune in F major at 280 BPM, heavy swing, silence level low, with advanced enclosures and irregular phrase lengths.
