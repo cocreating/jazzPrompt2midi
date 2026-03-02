@@ -323,10 +323,10 @@ const togglePlay = async () => {
                                : (instrument === 'guitar' ? guitarUrls : midiJsUrls);
 
         const baseUrls = {
-            piano: "https://raw.githubusercontent.com/Tonejs/audio/master/salamander/",
-            'bright-piano': "https://gleitz.github.io/midi-js-soundfonts/MusyngKite/bright_acoustic_piano-mp3/",
-            'electric-piano': "https://gleitz.github.io/midi-js-soundfonts/MusyngKite/electric_piano_1-mp3/",
-            guitar: "https://raw.githubusercontent.com/nbrosowsky/tonejs-instruments/master/samples/guitar-acoustic/"
+            piano: "/samples/piano/",
+            'bright-piano': "/samples/bright-piano/",
+            'electric-piano': "/samples/electric-piano/",
+            guitar: "/samples/guitar/"
         };
 
         const selectedBase = baseUrls[instrument] || baseUrls.piano;
